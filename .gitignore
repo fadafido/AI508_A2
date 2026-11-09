@@ -1,0 +1,39 @@
+# raw and intermediate data, rebuilt by the scripts
+data/raw/eventlogs/
+data/raw/*.zip
+data/interim/
+data/tmp/
+data/processed/spark/chunks/
+data/processed/scaling/*/chunks/
+data/processed/scaling/*/*.csv
+# re-run event logs are kept as data/cluster/eventlogs.tar.gz
+data/cluster/eventlogs/
+data/cluster/superseded/eventlogs*/
+data/cluster/driver_logs/
+
+# caches of interrupted runs
+results/reproduced/fgcs2025/_cache/
+
+# third-party code and tools, fetched by scripts/fetch_external.sh and scripts/cluster/setup_tools.sh
+external/garralda-performance-model/
+external/spark-self-tuning-framework/
+build/
+tools/*
+!tools/downloads.sha256
+!tools/hibench/
+tools/hibench/*
+!tools/hibench/SHA256SUMS
+!tools/hibench/COMMIT
+
+logs/
+__pycache__/
+*.pyc
+.venv*/
+.DS_Store
+
+# event logs of failed runs (records are in runs.jsonl)
+data/cluster/eventlogs_failed/
+
+# submission documents are kept outside the repository
+proposal/
+report/

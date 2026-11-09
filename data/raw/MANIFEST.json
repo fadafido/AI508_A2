@@ -1,0 +1,48 @@
+{
+  "source": "https://github.com/mgarralda/garralda-performance-model (resources/all zip.zip.00*)",
+  "parts": [
+    {
+      "file": "all zip.zip.001",
+      "bytes": 25165824,
+      "sha256": "d5c1619dab178e4bdf5b737b11235992015db1add0ecd72e6481fd505a446b8c"
+    },
+    {
+      "file": "all zip.zip.002",
+      "bytes": 25165824,
+      "sha256": "b7b2a96dc66843215806f7581959a561663462a3cd0855aae79d5403a5000aa3"
+    },
+    {
+      "file": "all zip.zip.003",
+      "bytes": 25165824,
+      "sha256": "a791cc3ee7aa920b7d46216e17161850083ece64ec462fb0f22b27b58d8a90d2"
+    },
+    {
+      "file": "all zip.zip.004",
+      "bytes": 25165824,
+      "sha256": "9cb49297b966ad6a9ca4cff193b54b0dd5efad7955d03e1a3139e5957088a3bb"
+    },
+    {
+      "file": "all zip.zip.005",
+      "bytes": 25165824,
+      "sha256": "e5b4f589a65a9e49dc5b2d60bd5015b6bce40afc835349e3fc6a18e4f81a9175"
+    },
+    {
+      "file": "all zip.zip.006",
+      "bytes": 25165824,
+      "sha256": "673d66baf7d9cf74bc18cd6180ee4b4f01cef52e1b453d3d4a8d3fd524274862"
+    },
+    {
+      "file": "all zip.zip.007",
+      "bytes": 3977789,
+      "sha256": "02dce663edfc13196626a71bd2777797e858af78fcdb964b0fbc4a08288e1141"
+    }
+  ],
+  "zip": {
+    "bytes": 154972733,
+    "sha256": "967c91bfef32dc9ae07c5c9dcf2aa876efb63016a32ee76e5a413464e7606aeb",
+    "crc_test": "ok"
+  },
+  "entries_total": 227,
+  "files": 215,
+  "uncompressed_bytes": 4092562038
+}
