@@ -168,3 +168,31 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
   constant; the processing part speeds up 1.27x, 1.50x, 1.33x. Reading the 4.1 GB through the shared
   mount makes VM 2 slower than VM 1 here, and 8 cores are no faster than 4: the featuriser is I/O
   bound at this data size, not start-up bound.
+
+### Fixes from the external review
+- 20:30 Known-answer tests for the descriptor maths (tests/test_descriptor.py, pytest: hand-computed
+  min-max, z-score, Cusum, final min-max and degree-2 fit on tiny series, the authors'-file identities
+  for 2-point series, scale invariance; 9 tests). A "Checking the work" section in the README: read
+  the results, a two-minute check (tests + the driver-equivalence check), or the full rerun.
+- 20:40 The DS gap pulled apart (src/analysis/ds_gap.py -> results/comparison/ds_gap.json). The worst
+  LOOCV fold recomputed with the authors' two stages: svm, true 4,819 s, predicted 11,469 s (stored
+  and recomputed agree), k = 8 all-svm neighbours with times 25 to 6,216 s; the prediction in the
+  Yeo-Johnson space (1.643) lies just above the largest transformed neighbour target (1.560) and the
+  inverse transform blows the overshoot up. That one fold carries 82.5% of the LOOCV squared error
+  (RMSE 499 without it 209). DS errors rescored by the audit classes of I-07 (15 consistent, 8
+  different runs, 1 terasort): the Garralda model's LOGOCV MAE is 340 s on the "different runs"
+  workloads against 202 s on the consistent ones; for Dou the pattern is reversed.
+- 20:46 Verified Dou's degenerate grid on DS'' directly: with k = 5 all 15 grid scores are NaN and the
+  refit silently takes the first grid point (max_depth 10, max_features 'sqrt', 10 trees); on DS all
+  15 are finite. Documented in I-09.
+- 20:55 to 23:20 Legacy-grid sensitivity (new run_experiments.sh stage baselines_legacy_grid: a copy
+  of the patched code with max_features [1.0, 'sqrt'], Dou, DS and DS'', seeds 0-2). DS: AME 307.7
+  against 298.8 with the patched grid, closer to the published 319.5. DS'': the search is degenerate
+  under both grids, the median barely moves (182.8 against 181.5) but the seed spread widens (150.6 to
+  208.5 against 154.3 to 192.8). Also checked at the source that both public revisions of the authors'
+  Prats file (283bc1a, f2d3f93) contain the same broken LOGOCV branch.
+- 23:30 docs/results.md rewritten: metric definitions as the code computes them, the single
+  aggregation rule and coverage, the DS gap per model, the svm fold, the Dou degeneracy with the
+  legacy grid next to it, the corrected scaling explanation, both re-run campaigns described as
+  queries against the 2022 gallery, the size-identification trade-off, and the ratio and incremental
+  caveats. docs/cluster.md got the campaign 2 section, docs/environment.md the VM 2 table.

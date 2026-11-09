@@ -46,6 +46,12 @@ with a warning and is skipped, so the baselines depend on the library version. O
 the Dou model uses only k = 5 neighbours, the 5-fold grid search then gets a NaN score for every
 candidate, the refit falls back to the first grid point, which is an 'auto' one, and every prediction
 fails. I removed 'auto' from both grids (patch). DS predictions are unchanged (checked unit by unit).
+Even with the patch, Dou's grid search is degenerate on DS'': with 5 samples and 5-fold CV every fold
+scores a single sample, so all 15 candidate scores are NaN and the refit silently takes the first grid
+point (max_depth 10, max_features 'sqrt', 10 trees); on DS (k = 18) all 15 scores are finite. So on
+DS'' the Dou "grid search" is really one fixed forest. A sensitivity run with the legacy grid
+(max_features [1.0, 'sqrt']; 1.0 is what 'auto' meant for regressors in old scikit-learn) is reported
+next to the patched grid in docs/results.md.
 
 ### I-10 Random forests without a seed (code, material for the baselines)
 The baselines and the RF/AdaBoost/GB learners of Table 5 have no `random_state`, so results change from

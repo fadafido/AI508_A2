@@ -1,5 +1,5 @@
 label: mac_m3pro_multipass_vm
-date_utc: 2026-11-09 17:13:16
+date_utc: 2026-11-09 17:48:24
 kernel: Linux 5.15.0-203-generic aarch64
 cpus: 8
 cpu: 

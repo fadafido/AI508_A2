@@ -1,0 +1,97 @@
+{
+  "worst_loocv_fold": {
+    "app": "application_1664906593046_0027_svm",
+    "workload": "svm",
+    "y_true": 4819.03,
+    "y_pred_stored": 11469.233834857698,
+    "y_pred_recomputed": 11469.233834857698,
+    "k": 8,
+    "neighbours": [
+      {
+        "app": "application_1664609410581_0039_svm",
+        "workload": "svm",
+        "t": 5420.859
+      },
+      {
+        "app": "application_1664712328677_0004_svm",
+        "workload": "svm",
+        "t": 6215.717
+      },
+      {
+        "app": "application_1663654608266_0116_svm",
+        "workload": "svm",
+        "t": 79.231
+      },
+      {
+        "app": "application_1663869303425_0024_svm",
+        "workload": "svm",
+        "t": 108.435
+      },
+      {
+        "app": "application_1663654608266_0049_svm",
+        "workload": "svm",
+        "t": 77.546
+      },
+      {
+        "app": "application_1664788134226_0046_svm",
+        "workload": "svm",
+        "t": 66.715
+      },
+      {
+        "app": "application_1663654608266_0092_svm",
+        "workload": "svm",
+        "t": 80.561
+      },
+      {
+        "app": "application_1663654608266_0052_summarizer",
+        "workload": "summarizer",
+        "t": 25.108
+      }
+    ],
+    "neighbour_t_range": [
+      25.108,
+      6215.717
+    ],
+    "prediction_transformed_space": 1.6432934743955494,
+    "neighbour_targets_transformed_range": [
+      -1.6355719780323943,
+      1.5598813056690517
+    ],
+    "loocv_rmse_with_fold": 499.1937580159166,
+    "loocv_rmse_without_fold": 209.04306540932305,
+    "share_of_squared_error_pct": 82.5
+  },
+  "rescored_by_audit_class": {
+    "workloads_per_class": {
+      "consistent": 15,
+      "different runs": 8,
+      "minor (<=5%)": 1
+    },
+    "MAE_by_class_median_over_seeds": {
+      "garralda": {
+        "loocv_consistent": 119.08,
+        "loocv_different runs": 120.77,
+        "loocv_minor (<=5%)": 55.18,
+        "logocv_consistent": 202.47,
+        "logocv_different runs": 340.39,
+        "logocv_minor (<=5%)": 47.41
+      },
+      "dou": {
+        "loocv_consistent": 241.19,
+        "loocv_different runs": 157.07,
+        "loocv_minor (<=5%)": 39.9,
+        "logocv_consistent": 260.71,
+        "logocv_different runs": 182.05,
+        "logocv_minor (<=5%)": 59.35
+      },
+      "prats": {
+        "loocv_consistent": 105.38,
+        "loocv_different runs": 119.94,
+        "loocv_minor (<=5%)": 35.17,
+        "logocv_consistent": 232.59,
+        "logocv_different runs": 214.82,
+        "logocv_minor (<=5%)": 58.37
+      }
+    }
+  }
+}

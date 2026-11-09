@@ -2,20 +2,25 @@
 
 ## Machines
 
-The final results come from the MacBook. A cloud VM was used first to develop the pipeline and later for
-the slow baseline runs that need many CPU hours (DS' and DS'', and the extra seeds on DS). Every result
-file stores the machine it ran on (`env` field), and the comparison table has a `machines` column.
+The final results come from VM 2, a Multipass VM on the MacBook; everything in `results/` was recomputed
+there in one run (WORKLOG, 9 Nov). Two earlier machines appear in the history: VM 1, the first Linux VM
+on the same Mac (campaign 1 of the cluster re-runs was produced there and kept), and an x86-64 cloud VM
+used to develop the pipeline (its DS'/DS'' baseline results are kept in `results/crosscheck_x86/` for
+the CPU-type comparison, I-19). Every result file stores the machine it ran on (`env` field), and the
+comparison table has a `machines` column.
 
-| | Mac (main) | Cloud VM |
-|---|---|---|
-| Hardware | MacBook Pro, Apple M3 Pro | Intel Xeon @ 2.10 GHz |
-| Where the code ran | Linux VM on the Mac: Ubuntu 22.04.5, kernel 6.8, ARM64, 4 vCPUs, 3.8 GB RAM | Ubuntu 24.04.5, x86-64, 2 vCPUs, 7.8 GB RAM |
-| Python | 3.10.12 | 3.11.18 |
-| Java (for PySpark) | OpenJDK 11.0.32 | OpenJDK 21.0.12 |
-| Java (for the cluster) | Temurin 1.8.0_512 | Temurin 1.8.0_512 (test runs only) |
+| | VM 2 (main) | VM 1 | Cloud VM |
+|---|---|---|---|
+| Hardware | MacBook Pro, Apple M3 Pro | same Mac | Intel Xeon @ 2.10 GHz |
+| Where the code ran | Multipass VM: Ubuntu 22.04.5, ARM64, 8 vCPUs, 10 GB RAM | Linux VM: Ubuntu 22.04.5, kernel 6.8, ARM64, 4 vCPUs, 3.8 GB RAM | Ubuntu 24.04.5, x86-64, 2 vCPUs, 7.8 GB RAM |
+| Python | 3.10.12 | 3.10.12 | 3.11.18 |
+| Java (for PySpark) | OpenJDK 11.0.33 | OpenJDK 11.0.32 | OpenJDK 21.0.12 |
+| Java (for the cluster) | Temurin 1.8.0_512 | Temurin 1.8.0_512 | Temurin 1.8.0_512 (test runs only) |
 
-Full captures: `results/env/mac_m3pro_linux_vm.txt` and `results/env/cloud_x86_vm.txt`
-(`env/capture_env.sh`).
+Full captures: `results/env/mac_m3pro_multipass_vm.txt`, `results/env/mac_m3pro_linux_vm.txt` and
+`results/env/cloud_x86_vm.txt` (`env/capture_env.sh`). The project folder is mounted into the VM; the
+virtual environments and the cluster work folder stay on the VM's own disk because HDFS, Spark and the
+HiBench generators misbehave on the shared mount (chmod and symlinks, I-20).
 
 ## Python packages
 

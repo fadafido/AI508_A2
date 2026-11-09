@@ -1,11 +1,14 @@
 # Re-running HiBench workloads on my own cluster
 
 The extra experiment: run some of the paper's workloads again on a cluster I set up, extract their
-descriptors with my featuriser and check whether they still look like the original 2022 runs.
+descriptors with my featuriser and check whether they still look like the original 2022 runs. There
+were two campaigns on two VMs: campaign 1 (`data/cluster/`, 69 runs) and campaign 2 (`data/cluster2/`,
+72 runs, more memory), so the same jobs exist under two resource settings.
 
-## Set-up
+## Set-up (campaign 1)
 
-Everything ran inside the Linux VM on my MacBook Pro (Ubuntu 22.04, ARM64, 4 vCPUs, 3.8 GB RAM, no swap).
+Everything ran inside the Linux VM on my MacBook Pro (Ubuntu 22.04, ARM64, 4 vCPUs, 3.8 GB RAM, no swap),
+"VM 1".
 
 | | Original runs (from their event logs) | My re-runs |
 |---|---|---|
@@ -67,3 +70,30 @@ Compared with the 2022 logs:
   workload/size/setting cells).
 
 The descriptor comparison itself is in `src/analysis/cluster_rerun.py` and `docs/results.md`.
+
+## Campaign 2 (VM 2)
+
+The same plan again on a second VM with more memory (Multipass, Ubuntu 22.04, ARM64, 8 vCPUs, 10 GB
+RAM, "VM 2"), to see what changes when only the resources change. Differences from campaign 1 (D-20):
+executor memory divided by 2 instead of 4 (2 GB under setting 1, 1.5 GB under settings 2 and 3), worker
+daemons at 2 GB, driver at 1 GB, benchmark group id `rerun-vm2`, output in `data/cluster2/`. Runs in
+`data/cluster2/runs.jsonl` carry a `campaign` field.
+
+All 86 jobs of the plan succeeded: 72 runs (8 workloads x 3 settings x (2 tiny + 1 small)), including
+bayes at the small size, which needs about 3 GB of executor memory and could not run on VM 1. No job
+needed the one-worker fallback of campaign 1.
+
+Two things went wrong on the way and are recorded as I-20: the pagerank and bayes data generators died
+on VM 2 because they create DistributedCache symlinks in the working directory and the Multipass project
+mount refuses symlinks, and `step.sh` then ran the pagerank jobs against the 4-byte leftover input and
+recorded them as ok. The fixes: `hibench.sh` changes into the work folder on the VM's own disk before
+running anything, `step.sh` skips runs whose data generation failed in the same session, and the nine
+invalid pagerank runs were moved to `data/cluster2/superseded/` and re-run.
+
+Campaign 2 against campaign 1 (`results/reproduced/cluster_rerun2/vs_campaign1.json`, matched by
+workload/size/setting/repetition, 69 pairs): the matched runs are a median 1.12 apart in the scaled
+descriptor space, about the distance between two repetitions of the same job inside one campaign (0.99
+in both campaigns) and far from other workloads (3.36); the nearest campaign-1 run of every campaign-2
+run is the same workload (69/69). Campaign 2 runs are a median 21% faster (ratio 0.79, Spearman 0.97
+over 45 cells). So the descriptor stays put when only the resources change; what moves are the same
+timing features that move between the VM and the 2022 cluster (serialisation, fetch wait).

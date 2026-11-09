@@ -61,6 +61,24 @@ bash scripts/run_all.sh               # everything except the cluster re-runs
 For the cluster re-runs see `docs/cluster.md` (`scripts/cluster/setup_tools.sh`, then
 `scripts/cluster/step.sh` until it says "all done").
 
+## Checking the work
+
+Three ways, from cheapest to most thorough:
+
+1. Read the results. `docs/results.md` summarises every number and names the file under `results/`
+   it comes from; `WORKLOG.md` says when and on which machine each one was produced.
+2. A two-minute check, needs only the repository and the environments:
+   ```
+   ~/.venvs/ai508a2/bin/python -m pytest tests/      # descriptor maths against hand-computed values
+   STEPS=patches bash scripts/run_all.sh             # rebuild the patched copy of the authors' code
+   ~/.venvs/ai508a2/bin/python src/experiments/run_fgcs2025.py --check
+   ```
+   The last command runs the authors' own validation code and our parallel driver on DS and
+   compares them; the descriptors it needs are in git (`data/processed/`).
+3. The full rerun: `bash scripts/fetch_external.sh`, then
+   `FORCE=--force bash scripts/run_all.sh` (hours; the raw event logs are joined from the authors'
+   repository). The cluster re-runs are separate, see `docs/cluster.md`.
+
 ## Credits
 
 Model and baseline code: github.com/mgarralda/garralda-performance-model (MIT licence), which also hosts

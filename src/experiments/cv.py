@@ -21,7 +21,8 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
-AUTHORS = ROOT / "build" / "authors_code" / "garralda_performance_model"
+# AI508_AUTHORS picks another patched copy of the authors' code (the legacy-grid sensitivity of I-09)
+AUTHORS = Path(os.environ.get("AI508_AUTHORS", ROOT / "build" / "authors_code")) / "garralda_performance_model"
 for p in (str(ROOT), str(AUTHORS)):
     if p not in sys.path:
         sys.path.insert(0, p)

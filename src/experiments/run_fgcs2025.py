@@ -68,6 +68,7 @@ def main():
     ap.add_argument("--lambdas", default="0.5")
     ap.add_argument("--variant", default="default", help="descriptor variant (featuriser ablation)")
     ap.add_argument("--kmax", type=int, default=None, help="override k_max (sensitivity)")
+    ap.add_argument("--tag-suffix", default="", help="appended to the result folder name (e.g. _gridlegacy)")
     ap.add_argument("--jobs", type=int, default=-1)
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--budget", type=float, default=None, help="seconds per call; resumable via per-unit cache")
@@ -90,7 +91,7 @@ def main():
                     for lam in lams:
                         tag = model + (f"_{reg}" if reg not in ("nnls", "-") else "") + \
                               (f"_lam{lam:g}" if lam != 0.5 else "") + (f"_{a.variant}" if a.variant != "default" else "") + \
-                              (f"_kmax{a.kmax}" if a.kmax else "")
+                              (f"_kmax{a.kmax}" if a.kmax else "") + a.tag_suffix
                         f = OUT / dsn / tag / f"seed{seed}.json"
                         if f.exists() and not a.force:
                             print(f"skip {f.relative_to(ROOT)}")
