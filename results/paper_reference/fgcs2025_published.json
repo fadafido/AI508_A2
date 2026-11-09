@@ -1,0 +1,63 @@
+{
+  "_source": "Garralda-Barrio, Eiras-Franco, Bolon-Canedo, Future Generation Computer Systems 166 (2025) 107730, doi:10.1016/j.future.2025.107730. Transcribed on 2026-11-09 from the article as reprinted in the author's open-access thesis (hdl.handle.net/2183/48114, pp. 65-81). Values copied as printed, including apparent typos (see audit).",
+  "table3_T_stats_seconds": {
+    "_columns": ["min", "max", "mean", "std"],
+    "sleep": [16, 104, 58, 36], "sort": [17, 35, 23, 6], "terasort": [21, 191, 71, 63], "wordcount": [14, 74, 28, 18], "repartition": [15, 91, 36, 23],
+    "aggregation": [23, 124, 46, 31], "join": [29, 88, 45, 18], "scan": [17, 30, 23, 4],
+    "pagerank": [15, 832, 137, 248],
+    "bayes": [20, 292, 91, 81], "kmeans": [19, 180, 79, 53], "lr": [40, 1210, 301, 387], "als": [32, 103, 46, 20], "pca": [25, 41, 31, 5],
+    "gbt": [79, 1607, 638, 624], "rf": [29, 72, 50, 12], "svd": [31, 562, 179, 159], "linear": [136, 4055, 1537, 1548], "lda": [55, 488, 210, 161],
+    "svm": [48, 6215, 1879, 2571], "gmm": [19, 400, 147, 136], "correlation": [38, 647, 229, 213], "summarizer": [16, 300, 88, 87],
+    "nweight": [21, 169, 69, 45],
+    "ALL": [14, 6215, 252, 576]
+  },
+  "table4_cs_parameters": ["driver.cores", "driver.memory", "executor.cores", "executor.instances", "executor.memory", "sql.shuffle.partitions"],
+  "k_ranges": {"DS_table5_table6": [3, 18], "DS_prime_table8": [3, 24], "DS_doubleprime_table10": [3, 5]},
+  "table5_regressors_DS": {
+    "_columns": ["LOOCV_MAE", "LOOCV_RMSE", "LOGOCV_MAE", "LOGOCV_RMSE"],
+    "RandomForest": [115.26, 256.22, 257.80, 398.10], "AdaBoost": [123.32, 275.51, 293.46, 478.33],
+    "GradientBoosting": [115.60, 247.90, 269.63, 440.22], "NNLS": [88.47, 214.79, 225.38, 361.51]
+  },
+  "table6_DS": {
+    "_columns": ["LOOCV_MAE", "LOOCV_RMSE", "LOOCV_HME", "LOGOCV_MAE", "LOGOCV_RMSE", "LOGOCV_HME"],
+    "Prats": [136.40, 424.43, 206.45, 293.61, 412.36, 339.59],
+    "Dou": [229.04, 761.25, 352.13, 234.47, 372.55, 286.90],
+    "Garralda": [88.47, 214.79, 125.32, 225.38, 361.51, 276.24]
+  },
+  "table7_residuals_DS": {
+    "_columns": ["LOOCV_max", "LOOCV_median", "LOOCV_std", "LOGOCV_max", "LOGOCV_median", "LOGOCV_std", "AMR_max", "AMR_median", "AMR_std"],
+    "Prats": [4009, 32, 402, 789, 150, 271, 2399, 91, 337],
+    "Dou": [4723, 26, 726, 752, 69, 287, 2737, 48, 507],
+    "Garralda": [1200, 16, 195, 799, 80, 279, 999, 48, 237]
+  },
+  "table8_DSprime": {
+    "_columns": ["LOOCV_MAE", "LOOCV_RMSE", "LOOCV_HME", "LOGOCV_MAE", "LOGOCV_RMSE", "LOGOCV_HME"],
+    "Prats": [44.10, 143.88, 67.49, 254.82, 369.42, 299.30],
+    "Dou": [159.88, 565.75, 249.30, 241.40, 386.67, 296.34],
+    "Garralda": [52.70, 146.68, 77.55, 219.86, 362.18, 271.99]
+  },
+  "table9_residuals_DSprime": {
+    "_columns": ["LOOCV_max", "LOOCV_median", "LOOCV_std", "LOGOCV_max", "LOGOCV_median", "LOGOCV_std", "AMR_max", "AMR_median", "AMR_std"],
+    "Prats": [1544, 9, 137, 740, 120, 256, 1142, 65, 197],
+    "Dou": [4723, 16, 543, 752, 69, 287, 2738, 43, 415],
+    "Garralda": [1463, 6, 137, 830, 86, 284, 1147, 46, 211]
+  },
+  "table10_DSdoubleprime": {
+    "_columns": ["LOOCV_MAE", "LOOCV_RMSE", "LOOCV_HME", "LOGOCV_MAE", "LOGOCV_RMSE", "LOGOCV_HME"],
+    "_note": "Dou LOGOCV HME printed as '248.47.88'",
+    "Prats": [61.13, 234.26, 96.99, 160.59, 238.07, 189.93],
+    "Dou": [168.79, 609.89, 264.63, 199.84, 331.84, 248.47],
+    "Garralda": [59.76, 175.89, 89.71, 108.58, 177.43, 133.89]
+  },
+  "table11_residuals_DSdoubleprime": {
+    "_columns": ["LOOCV_max", "LOOCV_median", "LOOCV_std", "LOGOCV_max", "LOGOCV_median", "LOGOCV_std", "AMR_max", "AMR_median", "AMR_std"],
+    "Prats": [2879, 12, 226, 509, 84, 167, 1694, 48, 196],
+    "Dou": [4198, 16, 586, 745, 55, 263, 2472, 36, 425],
+    "Garralda": [1498, 7, 165, 407, 37, 139, 953, 21, 152]
+  },
+  "table12_AME": {
+    "_columns": ["Prats", "Dou", "Garralda"],
+    "DS": [273.02, 319.51, 199.85], "DS_prime": [183.39, 272.82, 174.77], "DS_doubleprime": [143.45, 265.66, 111.55]
+  },
+  "headline_claims": {"improvement_vs_Prats_AME_pct": 18, "improvement_vs_Dou_AME_pct": 45, "overall_improvement_pct": 31}
+}

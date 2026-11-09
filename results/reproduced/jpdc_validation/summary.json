@@ -1,0 +1,51 @@
+{
+  "n_points": 215,
+  "seeds_kmeans": 20,
+  "table4_mean_abs_diff_silhouette": 0.03200989660874555,
+  "table4_mean_abs_diff_f_measure": 0.03799933680814724,
+  "table4_mean_abs_diff_nmi": 0.03047950909141502,
+  "best_kmeans_f_measure_config": [
+    "cusum",
+    1
+  ],
+  "best_kmeans_nmi_config": [
+    "cusum",
+    1
+  ],
+  "table6_garralda_beats_prats_on_external_metrics": {
+    "ours": 8,
+    "paper": 8,
+    "of": 8
+  },
+  "garralda__default": {
+    "diameter": 28.185643544544853,
+    "paper_diameter": 27.55,
+    "table5_mean_abs_diff": 0.5612047865501744,
+    "table5_median_abs_diff": 0.14234109120053873
+  },
+  "garralda__order_log": {
+    "diameter": 28.178610428079736,
+    "paper_diameter": 27.55,
+    "table5_mean_abs_diff": 0.9825500280453054,
+    "table5_median_abs_diff": 0.4917083884379201
+  },
+  "garralda__order_finish": {
+    "diameter": 28.178610428079736,
+    "paper_diameter": 27.55,
+    "table5_mean_abs_diff": 0.9825509523996679,
+    "table5_median_abs_diff": 0.4917108358810758
+  },
+  "garralda__no_final_minmax": {
+    "diameter": 72708.53090743403,
+    "paper_diameter": 27.55,
+    "table5_mean_abs_diff": 1954.6859020993331,
+    "table5_median_abs_diff": 346.9713559573373
+  },
+  "table5_spearman_default": 0.869206298504657,
+  "scan_mean_distance_ours": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ]
+}

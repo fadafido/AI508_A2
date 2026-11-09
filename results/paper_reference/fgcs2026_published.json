@@ -1,0 +1,6 @@
+{
+  "_source": "Garralda-Barrio, Eiras-Franco, Bolon-Canedo, Future Generation Computer Systems 178 (2026) 108325, doi:10.1016/j.future.2025.108325, Table 5 (LOGO, pooled, runtime objective beta=1). Transcribed 2026-11-09 from the thesis reprint (p. 95).",
+  "table5": {"_columns": ["MAE", "RMSE", "Residual_P95", "Residual_Max", "Kendall_tau", "Precision_at_10", "ESR_mu"],
+    "YORO": [346, 790, 1695, 5908, 0.375, 0.570, 203], "TurBO": [239, 742, 1491, 6299, 0.214, 0.365, 223],
+    "Ours_Ridge": [163, 517, 904, 4431, 0.694, 0.805, 31]}
+}

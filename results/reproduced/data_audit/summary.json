@@ -1,0 +1,246 @@
+{
+  "applications": 215,
+  "paper_states": 216,
+  "spark_versions": {
+    "2.4.8": 215
+  },
+  "master_deploy": [
+    {
+      "master": "yarn",
+      "deploy_mode": "client",
+      "n": 215
+    }
+  ],
+  "dynamic_allocation": {
+    "False": 215
+  },
+  "counts_by_scale_setting": {
+    "large": {
+      "1": 0,
+      "2": 24,
+      "3": 24,
+      "4": 23
+    },
+    "medium": {
+      "1": 24,
+      "2": 24,
+      "3": 24,
+      "4": 0
+    },
+    "small": {
+      "1": 24,
+      "2": 24,
+      "3": 24,
+      "4": 0
+    }
+  },
+  "counts_by_setting": {
+    "1": 48,
+    "2": 72,
+    "3": 72,
+    "4": 23
+  },
+  "paper_counts_by_setting": {
+    "1": 48,
+    "2": 72,
+    "3": 72,
+    "4": 24
+  },
+  "missing_samples": [
+    [
+      "gbt",
+      "large",
+      4
+    ]
+  ],
+  "folder_vs_recorded_config_mismatches": {
+    "n": 24,
+    "distinct": [
+      [
+        "big_executor3_cores3_memory3g_shuffle10",
+        [
+          3,
+          3,
+          3,
+          10
+        ],
+        [
+          3,
+          3,
+          3,
+          100
+        ]
+      ]
+    ]
+  },
+  "inner_folder_prefix_by_scale": {
+    "large": [
+      "big"
+    ],
+    "medium": [
+      "large"
+    ],
+    "small": [
+      "small"
+    ]
+  },
+  "driver_memory_gb_by_scale": {
+    "large": [
+      3.0
+    ],
+    "medium": [
+      1.0
+    ],
+    "small": [
+      1.0
+    ]
+  },
+  "failed_tasks": 3,
+  "t_stats_vs_fgcs_table3": {
+    "workloads": 24,
+    "by_class": {
+      "consistent": 15,
+      "different runs": 8,
+      "minor (<=5%)": 1
+    },
+    "different_runs": [
+      "aggregation",
+      "bayes",
+      "gbt",
+      "join",
+      "linear",
+      "sort",
+      "svd",
+      "wordcount"
+    ],
+    "minor": [
+      "terasort"
+    ],
+    "aggregate_std_note": "paper ALL std=576 is inconsistent with its own per-workload rows (pooled std implied ~770); ours (pop) = 782.8"
+  },
+  "tasks_match": {
+    "cells": 72,
+    "max_tasks_equal": 53,
+    "not_equal": [
+      {
+        "workload": "sleep",
+        "scale": "small",
+        "paper_max_tasks": 4,
+        "our_max_tasks": 9
+      },
+      {
+        "workload": "bayes",
+        "scale": "small",
+        "paper_max_tasks": 24,
+        "our_max_tasks": 51
+      },
+      {
+        "workload": "lr",
+        "scale": "large",
+        "paper_max_tasks": 9581,
+        "our_max_tasks": 9321
+      },
+      {
+        "workload": "pca",
+        "scale": "large",
+        "paper_max_tasks": 434,
+        "our_max_tasks": 428
+      },
+      {
+        "workload": "gbt",
+        "scale": "medium",
+        "paper_max_tasks": 65300,
+        "our_max_tasks": 66100
+      },
+      {
+        "workload": "gbt",
+        "scale": "large",
+        "paper_max_tasks": 138020,
+        "our_max_tasks": 165220
+      },
+      {
+        "workload": "svd",
+        "scale": "small",
+        "paper_max_tasks": 224,
+        "our_max_tasks": 218
+      },
+      {
+        "workload": "svd",
+        "scale": "medium",
+        "paper_max_tasks": 220,
+        "our_max_tasks": 214
+      },
+      {
+        "workload": "svd",
+        "scale": "large",
+        "paper_max_tasks": 220,
+        "our_max_tasks": 214
+      },
+      {
+        "workload": "linear",
+        "scale": "medium",
+        "paper_max_tasks": 23189,
+        "our_max_tasks": 23183
+      },
+      {
+        "workload": "linear",
+        "scale": "large",
+        "paper_max_tasks": 42795,
+        "our_max_tasks": 42785
+      },
+      {
+        "workload": "lda",
+        "scale": "small",
+        "paper_max_tasks": 2394,
+        "our_max_tasks": 2435
+      },
+      {
+        "workload": "lda",
+        "scale": "medium",
+        "paper_max_tasks": 2358,
+        "our_max_tasks": 2359
+      },
+      {
+        "workload": "lda",
+        "scale": "large",
+        "paper_max_tasks": 2355,
+        "our_max_tasks": 2363
+      },
+      {
+        "workload": "correlation",
+        "scale": "small",
+        "paper_max_tasks": 635,
+        "our_max_tasks": 629
+      },
+      {
+        "workload": "correlation",
+        "scale": "medium",
+        "paper_max_tasks": 438,
+        "our_max_tasks": 419
+      },
+      {
+        "workload": "correlation",
+        "scale": "large",
+        "paper_max_tasks": 635,
+        "our_max_tasks": 629
+      },
+      {
+        "workload": "summarizer",
+        "scale": "medium",
+        "paper_max_tasks": 219,
+        "our_max_tasks": 213
+      },
+      {
+        "workload": "summarizer",
+        "scale": "large",
+        "paper_max_tasks": 430,
+        "our_max_tasks": 420
+      }
+    ]
+  },
+  "input_bytes_ratio_ours_to_paper": {
+    "median": 0.95367431640625,
+    "within_5pct": 38,
+    "cells_with_nonzero_paper_value": 63
+  }
+}

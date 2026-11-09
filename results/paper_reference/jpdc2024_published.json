@@ -1,0 +1,46 @@
+{
+  "_source": "Garralda-Barrio, Eiras-Franco, Bolon-Canedo, Journal of Parallel and Distributed Computing 189 (2024) 104881, doi:10.1016/j.jpdc.2024.104881. Transcribed 2026-11-09 from the reprint in the author's thesis (pp. 46-61).",
+  "setup": "Docker cluster, 1 master + 3 workers, 36 GB RAM, 16 vCores, Ubuntu 20.04, Spark 2.4.8, Hadoop 2.7.7, Hive; 216 = 24 workloads x 3 settings x 3 sizes",
+  "table3_settings": {"_columns": ["executor_instances", "executor_cores", "executor_memory_gb", "shuffle_partitions", "sizes"],
+    "1": [1, 4, 4, 200, "small,medium"], "2": [3, 3, 3, 200, "small,medium,large"], "3": [3, 3, 3, 100, "small,medium,large"], "4": [3, 3, 5, 200, "large"]},
+  "table2_input_and_max_tasks": {
+    "_columns": ["small", "medium", "large"],
+    "sleep": ["0 (4)", "0 (9)", "0 (9)"], "sort": ["9.4 KB (202)", "824.0 KB (202)", "85.0 MB (202)"],
+    "terasort": ["6.4 MB (202)", "640.0 MB (206)", "6.4 GB (248)"], "wordcount": ["9.4 KB (4)", "82.1 MB (4)", "821.2 MB (14)"],
+    "repartition": ["716.8 KB (202)", "716.8 MB (206)", "7.1 GB (248)"], "aggregation": ["0 (200)", "0 (200)", "0 (200)"],
+    "join": ["40.3 KB (801)", "572.9 KB (801)", "5.3 MB (801)"], "scan": ["0 (1)", "0 (1)", "0 (1)"],
+    "pagerank": ["84.3 KB (16)", "34.0 MB (24)", "4.1 GB (24)"], "bayes": ["107.3 MB (24)", "127.8 MB (51)", "440.9 MB (51)"],
+    "kmeans": ["25.5 MB (271)", "6.7 GB (271)", "46.0 GB (621)"], "lr": ["21.9 MB (8260)", "2.1 GB (8895)", "275.0 GB (9581)"],
+    "als": ["381.4 KB (1402)", "2.0 MB (1402)", "18.8 MB (1402)"], "pca": ["51.0 KB (476)", "262.1 KB (436)", "16.3 MB (434)"],
+    "gbt": ["926.1 KB (29300)", "36.6 MB (65300)", "2.9 GB (138020)"], "rf": ["165.0 KB (1725)", "2.8 MB (2605)", "51.1 MB (2601)"],
+    "svd": ["852.9 KB (224)", "16.1 MB (220)", "64.0 MB (220)"], "linear": ["330.4 KB (23396)", "1.2 TB (23189)", "3.6 TB (42795)"],
+    "lda": ["251.8 MB (2394)", "1.1 GB (2358)", "2.8 GB (2355)"], "svm": ["501.1 MB (22904)", "50.1 GB (22904)", "4.0 TB (45204)"],
+    "gmm": ["22.1 MB (247)", "4.0 GB (232)", "26.0 GB (392)"], "correlation": ["1.2 GB (635)", "2.2 GB (438)", "3.3 GB (635)"],
+    "summarizer": ["40.2 MB (213)", "16.0 GB (219)", "30.8 GB (430)"], "nweight": ["271.9 MB (232)", "2.1 GB (232)", "4.8 GB (232)"]
+  },
+  "table4_clustering_all_points": {
+    "_columns": ["silhouette", "f_measure", "nmi"],
+    "kmeans|none|1": [0.418, 0.797, 0.877], "kmeans|none|2": [0.338, 0.777, 0.862], "kmeans|none|3": [0.287, 0.689, 0.800],
+    "kmeans|cusum|1": [0.368, 0.809, 0.874], "kmeans|cusum|2": [0.321, 0.846, 0.902], "kmeans|cusum|3": [0.257, 0.729, 0.808],
+    "agglomerative|none|1": [0.429, 0.807, 0.891], "agglomerative|none|2": [0.374, 0.762, 0.866], "agglomerative|none|3": [0.301, 0.701, 0.819],
+    "agglomerative|cusum|1": [0.389, 0.821, 0.892], "agglomerative|cusum|2": [0.360, 0.836, 0.902], "agglomerative|cusum|3": [0.276, 0.742, 0.829]
+  },
+  "table6_clustering_by_size": {
+    "_columns": ["silhouette", "f_measure", "nmi", "base_silhouette", "base_f_measure", "base_nmi"],
+    "kmeans|small": [0.398, 0.916, 0.955, 0.537, 0.725, 0.834], "kmeans|medium": [0.370, 0.916, 0.955, 0.423, 0.755, 0.845],
+    "kmeans|large": [0.542, 0.965, 0.983, 0.611, 0.870, 0.928], "kmeans|all": [0.321, 0.846, 0.902, 0.437, 0.558, 0.677],
+    "agglomerative|small": [0.422, 0.937, 0.967, 0.550, 0.728, 0.839], "agglomerative|medium": [0.383, 0.951, 0.975, 0.454, 0.777, 0.868],
+    "agglomerative|large": [0.542, 0.965, 0.983, 0.615, 0.872, 0.930], "agglomerative|all": [0.360, 0.836, 0.902, 0.446, 0.578, 0.695]
+  },
+  "diameter_FPP": 27.55,
+  "table5_mean_euclidean_distance": {
+    "_columns": ["small", "medium", "large", "all"],
+    "sleep": [3.69, 6.73, 6.30, 5.74], "sort": [7.63, 7.34, 5.21, 7.42], "terasort": [4.95, 4.97, 7.63, 11.5], "wordcount": [5.23, 4.49, 2.27, 6.89],
+    "repartition": [1.81, 4.77, 8.78, 10.8], "aggregation": [2.89, 3.86, 3.38, 3.32], "join": [6.30, 8.04, 8.12, 7.75], "scan": [0.00, 0.00, 0.00, 0.00],
+    "pagerank": [3.73, 6.49, 4.89, 6.57], "bayes": [5.62, 8.07, 5.01, 6.56], "kmeans": [7.20, 8.63, 6.29, 9.84], "lr": [4.24, 6.10, 6.03, 6.96],
+    "als": [9.08, 6.10, 5.96, 9.03], "pca": [4.25, 5.49, 3.06, 10.0], "gbt": [7.51, 7.70, 7.21, 8.89], "rf": [8.24, 4.48, 1.44, 9.37],
+    "svd": [4.47, 6.71, 10.0, 8.14], "linear": [3.27, 6.68, 2.61, 4.43], "lda": [6.32, 3.69, 4.28, 5.73], "svm": [4.68, 3.63, 3.99, 6.55],
+    "gmm": [5.87, 5.84, 10.0, 9.83], "correlation": [3.69, 6.82, 4.97, 10.6], "summarizer": [7.44, 8.47, 8.50, 8.62], "nweight": [7.21, 4.56, 3.38, 4.99]
+  },
+  "table5_mean_ratios": [0.171, 0.208, 0.191, 0.276]
+}
