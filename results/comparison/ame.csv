@@ -1,0 +1,10 @@
+dataset,model,paper,ours_mean,ours_median,n_seeds
+DS,Prats,273.02,215.29,215.2,3
+DS,Dou,319.51,298.99,298.75,3
+DS,Garralda,199.85,245.28,245.28,1
+DSp,Prats,183.39,162.54,162.54,1
+DSp,Dou,272.82,284.08,284.08,1
+DSp,Garralda,174.77,176.11,175.63,10
+DSpp,Prats,143.45,,,0
+DSpp,Dou,265.66,192.8,192.8,1
+DSpp,Garralda,111.55,115844.24,100.13,10

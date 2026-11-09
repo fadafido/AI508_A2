@@ -1,0 +1,196 @@
+{
+  "checks": 162,
+  "inconsistent": 16,
+  "inconsistent_rows": [
+    {
+      "check": "HME from MAE,RMSE",
+      "table": "table8_DSprime",
+      "dataset": "DS'",
+      "model": "Prats",
+      "cv": "LOOCV",
+      "printed": 67.49,
+      "recomputed": 67.51,
+      "consistent": false
+    },
+    {
+      "check": "HME from MAE,RMSE",
+      "table": "table10_DSdoubleprime",
+      "dataset": "DS''",
+      "model": "Prats",
+      "cv": "LOOCV",
+      "printed": 96.99,
+      "recomputed": 96.96,
+      "consistent": false
+    },
+    {
+      "check": "HME from MAE,RMSE",
+      "table": "table10_DSdoubleprime",
+      "dataset": "DS''",
+      "model": "Dou",
+      "cv": "LOOCV",
+      "printed": 264.63,
+      "recomputed": 264.4,
+      "consistent": false
+    },
+    {
+      "check": "HME from MAE,RMSE",
+      "table": "table10_DSdoubleprime",
+      "dataset": "DS''",
+      "model": "Garralda",
+      "cv": "LOOCV",
+      "printed": 89.71,
+      "recomputed": 89.21,
+      "consistent": false
+    },
+    {
+      "check": "AME from HMEs",
+      "table": "table12_AME",
+      "dataset": "DS",
+      "model": "Garralda",
+      "cv": "-",
+      "printed": 199.85,
+      "recomputed": 200.78,
+      "consistent": false
+    },
+    {
+      "check": "AME from HMEs",
+      "table": "table12_AME",
+      "dataset": "DS_doubleprime",
+      "model": "Dou",
+      "cv": "-",
+      "printed": 265.66,
+      "recomputed": 256.55,
+      "consistent": false
+    },
+    {
+      "check": "AME from HMEs",
+      "table": "table12_AME",
+      "dataset": "DS_doubleprime",
+      "model": "Garralda",
+      "cv": "-",
+      "printed": 111.55,
+      "recomputed": 111.8,
+      "consistent": false
+    },
+    {
+      "check": "paper vs repo results file",
+      "table": "table8_DSprime",
+      "dataset": "DS'",
+      "model": "Prats",
+      "cv": "LOOCV RMSE",
+      "printed": 143.88,
+      "recomputed": 143.68,
+      "consistent": false
+    },
+    {
+      "check": "paper vs repo results file",
+      "table": "table9_residuals_DSprime",
+      "dataset": "DS'",
+      "model": "Dou",
+      "cv": "LOOCV Residual Max",
+      "printed": 4723.0,
+      "recomputed": 4239.42,
+      "consistent": false
+    },
+    {
+      "check": "paper vs repo results file",
+      "table": "table9_residuals_DSprime",
+      "dataset": "DS'",
+      "model": "Dou",
+      "cv": "LOGOCV Residual Max",
+      "printed": 752.0,
+      "recomputed": 847.61,
+      "consistent": false
+    },
+    {
+      "check": "paper vs repo results file",
+      "table": "table9_residuals_DSprime",
+      "dataset": "DS'",
+      "model": "Dou",
+      "cv": "LOGOCV Residual Median",
+      "printed": 69.0,
+      "recomputed": 71.29,
+      "consistent": false
+    },
+    {
+      "check": "paper vs repo results file",
+      "table": "table9_residuals_DSprime",
+      "dataset": "DS'",
+      "model": "Dou",
+      "cv": "LOGOCV Residual Std. Dev.",
+      "printed": 287.0,
+      "recomputed": 299.93,
+      "consistent": false
+    },
+    {
+      "check": "paper vs repo results file",
+      "table": "table10_DSdoubleprime",
+      "dataset": "DS''",
+      "model": "Prats",
+      "cv": "LOOCV HME",
+      "printed": 96.99,
+      "recomputed": 96.96,
+      "consistent": false
+    },
+    {
+      "check": "paper vs repo results file",
+      "table": "table10_DSdoubleprime",
+      "dataset": "DS''",
+      "model": "Dou",
+      "cv": "LOOCV MAE",
+      "printed": 168.79,
+      "recomputed": 168.97,
+      "consistent": false
+    },
+    {
+      "check": "paper vs repo results file",
+      "table": "table12_AME",
+      "dataset": "DS''",
+      "model": "Dou",
+      "cv": "AME",
+      "printed": 265.66,
+      "recomputed": 256.55,
+      "consistent": false
+    },
+    {
+      "check": "paper vs repo results file",
+      "table": "table10_DSdoubleprime",
+      "dataset": "DS''",
+      "model": "Garralda",
+      "cv": "LOOCV HME",
+      "printed": 89.71,
+      "recomputed": 89.21,
+      "consistent": false
+    }
+  ],
+  "headline_claims": {
+    "AME_sum": {
+      "Prats": 599.8599999999999,
+      "Dou": 857.99,
+      "Garralda": 486.17
+    },
+    "per_dataset_improvement_pct": {
+      "Prats": [
+        26.8,
+        4.7,
+        22.2
+      ],
+      "Dou": [
+        37.5,
+        35.9,
+        58.0
+      ]
+    },
+    "mean_of_per_dataset_improvement_pct": {
+      "Prats": 17.9,
+      "Dou": 43.8
+    },
+    "improvement_vs_Prats_pct": 19.0,
+    "improvement_vs_Dou_pct": 43.3,
+    "paper_says": {
+      "improvement_vs_Prats_AME_pct": 18,
+      "improvement_vs_Dou_AME_pct": 45,
+      "overall_improvement_pct": 31
+    }
+  }
+}

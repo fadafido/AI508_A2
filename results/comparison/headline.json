@@ -1,0 +1,25 @@
+{
+  "paper": {
+    "improvement_vs_Prats_AME_pct": 18,
+    "improvement_vs_Dou_AME_pct": 45,
+    "overall_improvement_pct": 31
+  },
+  "paper_recomputed_from_table12": {
+    "improvement_pct_per_dataset": {
+      "Prats": {
+        "DS": 26.8,
+        "DSp": 4.7,
+        "DSpp": 22.2
+      },
+      "Dou": {
+        "DS": 37.5,
+        "DSp": 35.9,
+        "DSpp": 58.0
+      }
+    },
+    "improvement_pct_avg": {
+      "Prats": 17.9,
+      "Dou": 43.8
+    }
+  }
+}
