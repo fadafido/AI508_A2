@@ -1,0 +1,16 @@
+workload,scale,n,top1,hit3,top1_size
+bayes,small,6,1.0,1.0,1.0
+kmeans,medium,3,1.0,1.0,1.0
+kmeans,small,6,1.0,1.0,1.0
+pagerank,medium,3,1.0,1.0,1.0
+pagerank,small,6,1.0,1.0,1.0
+repartition,medium,3,1.0,1.0,1.0
+repartition,small,6,1.0,1.0,1.0
+sleep,medium,3,1.0,1.0,1.0
+sleep,small,6,1.0,1.0,1.0
+sort,medium,3,1.0,1.0,0.667
+sort,small,6,1.0,1.0,1.0
+terasort,medium,3,1.0,1.0,1.0
+terasort,small,6,1.0,1.0,1.0
+wordcount,medium,3,1.0,1.0,1.0
+wordcount,small,6,0.0,0.167,0.833

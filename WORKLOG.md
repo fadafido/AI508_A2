@@ -138,3 +138,33 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
   campaign-1 run is the same workload (69/69). Campaign 2 runs 21% faster (median ratio 0.79,
   Spearman 0.97). The descriptor stays put when only the resources change; what moves are the timing
   features (serialisation, fetch wait), the same ones that move between the VM and 2022.
+
+### The whole reproduction again (VM 2)
+- 17:44 The four DS' and DS'' baseline results computed on the x86-64 cloud VM are copied to
+  results/crosscheck_x86/ so the ARM64 vs x86-64 comparison (I-19) keeps its evidence. The baselines
+  now run seeds 0-2 on DS, DS' and DS'' by default (run_experiments.sh), so all three models share
+  the same seeds everywhere. compare_with_paper.py now computes every metric per seed and aggregates
+  with one rule (the median over seeds, because the DS'' blow-up seeds of I-18 would dominate any
+  mean), marks sd as not estimated with one seed, adds coverage columns (finite predictions / all)
+  and writes a matched-seed table (results/comparison/matched_seeds.csv).
+- 17:48 to 20:21 Everything fresh on VM 2, one command: data/interim and the chunked featuriser
+  outputs deleted first, then run_all.sh with FORCE over env, patches, raw, parse, descriptors,
+  audit, validate, spark, paper_audit, anchor, experiments, scaling, reruns and compare. 2 h 33 min,
+  almost all of it the six baseline stages. The deterministic results match VM 1 exactly: all DS
+  values (Garralda AME 245.28; Dou 295.03/298.75/303.18; Prats 215.20/219.51/211.14 for seeds 0-2),
+  the Garralda model on DS' and DS'' (mean 176.11, median 100.13), the FGCS 2026 anchor (163.045 /
+  517.132, identical to the published file), the JPDC validation (diffs 0.032/0.038/0.030, diameter
+  28.19), the featuriser cross-check (3.5e-10) and the campaign-1 recognition (66/69 and 63/69).
+- 20:21 New numbers from this run: the DS' and DS'' baselines on ARM64 with seeds 0-2 (median AME:
+  Prats 160.17 on DS', 133.71 on DS''; Dou 283.77 and 181.49) against the single x86-64 seed before
+  (162.5, 135.4, 284.1, 192.8); the biggest mover is Dou on DS'', whose degenerate grid (I-09) makes
+  it the most seed- and machine-sensitive result. With the single aggregation rule the headline is:
+  the model beats Dou by 33.6% on average (paper's own Table 12 gives 43.8%) and Prats by 0.5%
+  (paper 17.9%).
+- 20:25 The scaling step had quietly reused the VM 1 chunk outputs (chunks are skipped when present),
+  so its 1-, 2- and 4-core times were VM 1 times; deleted data/processed/scaling and re-ran all four
+  core counts on an otherwise idle VM 2: 265, 213, 184, 206 s for 1, 2, 4, 8 cores (medians of 2,
+  every run reproduces the reference descriptors). The Spark session start is 22 s and roughly
+  constant; the processing part speeds up 1.27x, 1.50x, 1.33x. Reading the 4.1 GB through the shared
+  mount makes VM 2 slower than VM 1 here, and 8 cores are no faster than 4: the featuriser is I/O
+  bound at this data size, not start-up bound.

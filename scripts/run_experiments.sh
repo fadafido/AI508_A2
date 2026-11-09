@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Model experiments of the FGCS 2025 reproduction. Usage: scripts/run_experiments.sh [stage ...]
-# Stages: check core regressors lambda kmax variants baselines_ds baselines_dsp baselines_dspp baselines_seeds
+# Stages: check core regressors lambda kmax variants baselines_ds baselines_dsp baselines_dspp
 # Every stage skips results that already exist (delete the JSON or pass FORCE=--force to recompute).
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -26,10 +26,10 @@ for s in "${stages[@]}"; do case $s in
   kmax)         for k in 6 10 14 24 30; do run kmax$k $R --datasets DS --models garralda --kmax $k --seeds 0; done ;;
   # featuriser ablation propagated to the performance model
   variants)     for v in order_log no_cusum_d2 cusum_d1 cusum_d3; do run var_$v $R --datasets DS --models garralda --variant $v --seeds 0; done ;;
-  # baselines (random forests with grid search: the expensive part)
-  baselines_ds)   run base_ds $R --datasets DS --models dou,prats --seeds 0 ;;
-  baselines_dsp)  run base_dsp $R --datasets DSp --models dou,prats --seeds 0 ;;
-  baselines_dspp) run base_dspp $R --datasets DSpp --models dou,prats --seeds 0 ;;
-  baselines_seeds) run base_seeds $R --datasets DS --models dou,prats --seeds 1-2 ;;
+  # baselines (random forests with grid search: the expensive part); seeds 0-2 so all three models
+  # share the same seeds on every dataset
+  baselines_ds)   run base_ds $R --datasets DS --models dou,prats --seeds 0-2 ;;
+  baselines_dsp)  run base_dsp $R --datasets DSp --models dou,prats --seeds 0-2 ;;
+  baselines_dspp) run base_dspp $R --datasets DSpp --models dou,prats --seeds 0-2 ;;
   *) echo "unknown stage $s"; exit 1 ;;
 esac; done

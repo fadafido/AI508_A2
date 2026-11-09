@@ -32,7 +32,7 @@ def main(spark_dir=PROCESSED / "spark"):
         "input_bytes_equal": bool(np.allclose(sa.input_bytes.values, ref_a.loc[sa.index].input_bytes.values)),
     }
     (Path(spark_dir) / "crosscheck.json").write_text(json.dumps(res, indent=2))
-    if Path(spark_dir) == PROCESSED / "spark":
+    if Path(spark_dir).resolve() == (PROCESSED / "spark").resolve():
         (REPRODUCED / "featuriser_crosscheck.json").write_text(json.dumps(res, indent=2))
     print(json.dumps(res, indent=2))
 

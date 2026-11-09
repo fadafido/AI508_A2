@@ -1,4 +1,5 @@
-mode,units,cores,total_s,total_min,total_max,reps,GB,all_match,speedup,efficiency,MB_per_s
-local,1,1,206.235,200.880,211.590,2,4.093,True,1.000,1.000,19.844
-local,2,2,154.075,149.170,158.980,2,4.093,True,1.339,0.669,26.562
-local,4,4,140.580,134.380,146.780,2,4.093,True,1.467,0.367,29.112
+mode,units,cores,total_s,total_min,total_max,reps,session_s,processing_s,GB,all_match,speedup,speedup_processing,efficiency,MB_per_s
+local,1,1,265.070,238.830,291.310,2,22.350,242.720,4.093,True,1.000,1.000,1.000,15.440
+local,2,2,212.980,180.710,245.250,2,22.475,190.505,4.093,True,1.245,1.274,0.622,19.216
+local,4,4,183.835,165.910,201.760,2,22.060,161.775,4.093,True,1.442,1.500,0.360,22.262
+local,8,8,205.595,185.710,225.480,2,23.110,182.485,4.093,True,1.289,1.330,0.161,19.906

@@ -5,12 +5,12 @@
   "tasks": 1251335,
   "log_bytes": 4092562038,
   "timings": {
-    "session_s": 18.57,
-    "parse_tasks_s": 46.84,
-    "metadata_s": 13.57,
-    "descriptor_s": 60.25,
-    "prats_s": 7.35,
-    "total_s": 146.78
+    "session_s": 21.38,
+    "parse_tasks_s": 52.41,
+    "metadata_s": 23.69,
+    "descriptor_s": 61.45,
+    "prats_s": 6.75,
+    "total_s": 165.91
   },
   "master": "local[4]",
   "default_parallelism": 4,

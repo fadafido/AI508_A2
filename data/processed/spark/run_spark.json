@@ -1,0 +1,18 @@
+{
+  "tag": "spark",
+  "chunks": 9,
+  "apps": 215,
+  "tasks": 1251335,
+  "log_bytes": 4092562038,
+  "timings": {
+    "session_s": 19.96,
+    "parse_tasks_s": 45.52,
+    "metadata_s": 24.05,
+    "descriptor_s": 47.34,
+    "prats_s": 5.45,
+    "total_s": 142.57
+  },
+  "master": "local[*]",
+  "default_parallelism": 8,
+  "spark_version": "3.5.9"
+}

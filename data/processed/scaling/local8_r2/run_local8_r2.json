@@ -1,0 +1,18 @@
+{
+  "tag": "local8_r2",
+  "chunks": 9,
+  "apps": 215,
+  "tasks": 1251335,
+  "log_bytes": 4092562038,
+  "timings": {
+    "session_s": 24.36,
+    "parse_tasks_s": 75.92,
+    "metadata_s": 31.51,
+    "descriptor_s": 83.98,
+    "prats_s": 9.34,
+    "total_s": 225.48
+  },
+  "master": "local[8]",
+  "default_parallelism": 8,
+  "spark_version": "3.5.9"
+}

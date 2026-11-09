@@ -51,16 +51,15 @@ def ame_bars():
     x = np.arange(3)
     for ax, ds in zip(axes, ["DS", "DSp", "DSpp"]):
         sub = ame[ame.dataset == ds].set_index("model").loc[models]
-        # DS'' has seeds where LOGOCV blows up, so the median is the fair summary there
-        ours = sub.ours_median if ds == "DSpp" else sub.ours_mean
+        ours = sub.ours_median    # one aggregation rule everywhere: median over seeds
         ax.bar(x - 0.19, sub.paper, 0.36, color=PAPER_C, label="paper")
-        ax.bar(x + 0.19, ours, 0.36, color=OURS_C, label="ours")
+        ax.bar(x + 0.19, ours, 0.36, color=OURS_C, label="ours (median of seeds)")
         for i, (p, o) in enumerate(zip(sub.paper, ours)):
             if np.isfinite(o):
                 ax.text(i + 0.19, o + 4, f"{o:.0f}", ha="center", va="bottom", fontsize=7, color=INK2)
             ax.text(i - 0.19, p + 4, f"{p:.0f}", ha="center", va="bottom", fontsize=7, color=INK2)
         ax.set_xticks(x, models)
-        ax.set_title(DS_LABEL[ds] + (" (ours: median of seeds)" if ds == "DSpp" else ""), fontsize=9, color=INK)
+        ax.set_title(DS_LABEL[ds], fontsize=9, color=INK)
         ax.grid(axis="x", visible=False)
     axes[0].set_ylabel("AME (s)")
     fig.legend(*axes[0].get_legend_handles_labels(), loc="upper center", ncol=2, fontsize=8,

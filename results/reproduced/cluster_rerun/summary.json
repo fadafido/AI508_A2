@@ -22,10 +22,12 @@
     "reruns_top1": 0.957,
     "reruns_hit3": 0.971,
     "reruns_top1_same_size": 0.551,
+    "reruns_top1_size": 0.565,
     "reruns_median_rank_first_same": 1.0,
     "loo_2022_top1_all": 0.991,
     "loo_2022_top1_same_workloads": 1.0,
     "loo_2022_hit3_same_workloads": 1.0,
+    "loo_2022_top1_size_all": 0.595,
     "by_workload_top1": {
       "bayes": 0.67,
       "kmeans": 1.0,
@@ -57,10 +59,12 @@
     "reruns_top1": 0.913,
     "reruns_hit3": 0.928,
     "reruns_top1_same_size": 0.899,
+    "reruns_top1_size": 0.971,
     "reruns_median_rank_first_same": 1.0,
-    "loo_2022_top1_all": 0.893,
+    "loo_2022_top1_all": 0.884,
     "loo_2022_top1_same_workloads": 0.833,
-    "loo_2022_hit3_same_workloads": 0.931,
+    "loo_2022_hit3_same_workloads": 0.917,
+    "loo_2022_top1_size_all": 0.837,
     "by_workload_top1": {
       "bayes": 1.0,
       "kmeans": 1.0,
@@ -91,29 +95,57 @@
     "n_cells": 45
   },
   "model": {
-    "2022": {
-      "MAE": 19.84,
-      "median_AE": 17.78,
-      "MAPE_pct": 270.7,
-      "neighbour_same_workload": 0.63,
-      "mean_k": 11.7,
-      "n_failed": 0
+    "nominal_cs": {
+      "2022": {
+        "MAE": 19.84,
+        "median_AE": 17.78,
+        "MAPE_pct": 270.7,
+        "neighbour_same_workload": 0.63,
+        "mean_k": 11.7,
+        "n_failed": 0
+      },
+      "2022+vm_other": {
+        "MAE": 14.73,
+        "median_AE": 11.23,
+        "MAPE_pct": 194.2,
+        "neighbour_same_workload": 0.63,
+        "mean_k": 10.5,
+        "n_failed": 0
+      },
+      "vm_other": {
+        "MAE": 6.62,
+        "median_AE": 3.31,
+        "MAPE_pct": 58.7,
+        "neighbour_same_workload": 0.0,
+        "mean_k": 12.8,
+        "n_failed": 0
+      }
     },
-    "2022+vm_other": {
-      "MAE": 14.73,
-      "median_AE": 11.23,
-      "MAPE_pct": 194.2,
-      "neighbour_same_workload": 0.63,
-      "mean_k": 10.5,
-      "n_failed": 0
-    },
-    "vm_other": {
-      "MAE": 6.62,
-      "median_AE": 3.31,
-      "MAPE_pct": 58.7,
-      "neighbour_same_workload": 0.0,
-      "mean_k": 12.8,
-      "n_failed": 0
+    "actual_cs": {
+      "2022": {
+        "MAE": 16.26,
+        "median_AE": 14.51,
+        "MAPE_pct": 218.3,
+        "neighbour_same_workload": 0.63,
+        "mean_k": 11.7,
+        "n_failed": 0
+      },
+      "2022+vm_other": {
+        "MAE": 11.16,
+        "median_AE": 8.36,
+        "MAPE_pct": 132.7,
+        "neighbour_same_workload": 0.63,
+        "mean_k": 10.5,
+        "n_failed": 0
+      },
+      "vm_other": {
+        "MAE": 6.65,
+        "median_AE": 3.31,
+        "MAPE_pct": 58.8,
+        "neighbour_same_workload": 0.0,
+        "mean_k": 12.8,
+        "n_failed": 0
+      }
     }
   }
 }

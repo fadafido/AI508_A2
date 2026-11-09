@@ -36,13 +36,18 @@ def main():
         print("no scaling runs found")
         return
     df = pd.DataFrame(rows)
+    # the fixed part (Spark session start) against the part that can scale with the cores
+    df["processing_s"] = df.total_s - df.session_s
     g = df.groupby(["mode", "units", "cores"]).agg(total_s=("total_s", "median"), total_min=("total_s", "min"),
                                                    total_max=("total_s", "max"), reps=("rep", "count"),
+                                                   session_s=("session_s", "median"),
+                                                   processing_s=("processing_s", "median"),
                                                    GB=("GB", "first"), all_match=("matches_reference", "all")).reset_index()
     for mode in g["mode"].unique():
         base = g[(g["mode"] == mode)].sort_values("cores").iloc[0]
         sel = g["mode"] == mode
         g.loc[sel, "speedup"] = base.total_s / g.loc[sel, "total_s"]
+        g.loc[sel, "speedup_processing"] = base.processing_s / g.loc[sel, "processing_s"]
         g.loc[sel, "efficiency"] = g.loc[sel, "speedup"] / (g.loc[sel, "cores"] / base.cores)
     g["MB_per_s"] = g.GB * 1000 / g.total_s
     out = REPRODUCED / "scaling"

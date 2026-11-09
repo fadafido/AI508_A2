@@ -1,11 +1,13 @@
 """Puts our numbers next to the published ones (FGCS 2025 Tables 5-12) and writes the comparison tables.
 
-For models with randomness (random forests in the baselines and the RF/AdaBoost/GB ablation) and for
-the synthetic datasets DS' and DS'' we report the mean over the seeds we ran, plus the spread. DS''
-has a few seeds where LOGOCV blows up (see docs/issues.md), so for DS'' the median is reported too.
+Aggregation rule, the same for every model, dataset and metric: each metric is computed per seed
+(AME included), and "ours" is the median over the seeds we ran. The mean, min, max and sd are kept
+as extra columns (sd is not estimated, NaN, when there is one seed). The median is used because a
+few DS'' seeds blow up in LOGOCV (I-18) and would dominate any mean; using it everywhere keeps the
+rule uniform. Coverage = finite predictions / all samples, averaged over seeds, is reported per CV.
 
     python src/analysis/compare_with_paper.py
-Output: results/comparison/fgcs2025_vs_ours.csv, ame.csv, headline.json
+Output: results/comparison/fgcs2025_vs_ours.csv, ame.csv, matched_seeds.csv, headline.json
 """
 import json
 import sys
@@ -24,6 +26,11 @@ MODEL_DIR = {"Garralda": "garralda", "Dou": "dou", "Prats": "prats"}
 DS_NAME = {"DS": "DS", "DSp": "DS_prime", "DSpp": "DS_doubleprime"}
 
 
+def coverage(cv):
+    y = np.asarray(cv["predictions"]["y_pred"], float)
+    return float(np.isfinite(y).sum()) / cv["n_samples"]
+
+
 def runs(ds, tag):
     out = []
     for f in sorted((RES / ds / tag).glob("seed*.json")):
@@ -34,6 +41,7 @@ def runs(ds, tag):
                     "LOOCV_max": m1["residual_max"], "LOOCV_median": m1["residual_median"],
                     "LOOCV_std": m1["residual_std"], "LOGOCV_max": m2["residual_max"],
                     "LOGOCV_median": m2["residual_median"], "LOGOCV_std": m2["residual_std"],
+                    "coverage_loocv": coverage(d["loocv"]), "coverage_logocv": coverage(d["logocv"]),
                     "machine": d["env"]["machine"]})
     df = pd.DataFrame(out)
     if len(df):
@@ -49,11 +57,14 @@ def rows_for(table, ds, model, tag, cols, paper_vals):
         r = {"table": table, "dataset": ds, "model": model, "metric": c, "paper": p, "n_seeds": len(df)}
         if len(df):
             v = df[c].astype(float)
-            r.update(ours_mean=v.mean(), ours_median=v.median(), ours_sd=v.std(ddof=1) if len(v) > 1 else 0.0,
-                     ours_min=v.min(), ours_max=v.max(), ours_seed0=float(v[df.seed == 0].iloc[0]) if (df.seed == 0).any() else np.nan,
+            r.update(ours_median=v.median(), ours_mean=v.mean(),
+                     ours_sd=v.std(ddof=1) if len(v) > 1 else np.nan,
+                     ours_min=v.min(), ours_max=v.max(),
+                     ours_seed0=float(v[df.seed == 0].iloc[0]) if (df.seed == 0).any() else np.nan,
+                     coverage_loocv=df.coverage_loocv.mean(), coverage_logocv=df.coverage_logocv.mean(),
                      machines=",".join(sorted(set(df.machine))))
-            r["diff_pct_mean"] = 100 * (r["ours_mean"] - p) / p
             r["diff_pct_median"] = 100 * (r["ours_median"] - p) / p
+            r["diff_pct_mean"] = 100 * (r["ours_mean"] - p) / p
         rows.append(r)
     return rows
 
@@ -75,18 +86,30 @@ def main():
     COMPARISON.mkdir(parents=True, exist_ok=True)
     df.round(3).to_csv(COMPARISON / "fgcs2025_vs_ours.csv", index=False)
 
+    # matched seeds: the three models on the same seeds (0-2) so their spread is comparable
+    matched = []
+    for ds in ("DS", "DSp", "DSpp"):
+        for model in ("Prats", "Dou", "Garralda"):
+            d = runs(ds, MODEL_DIR[model])
+            for _, r in d[d.seed <= 2].iterrows():
+                matched.append({"dataset": ds, "model": model, "seed": int(r.seed), "machine": r.machine,
+                                "LOOCV_MAE": r.LOOCV_MAE, "LOGOCV_MAE": r.LOGOCV_MAE,
+                                "LOOCV_HME": r.LOOCV_HME, "LOGOCV_HME": r.LOGOCV_HME, "AME": r.AME})
+    pd.DataFrame(matched).round(3).to_csv(COMPARISON / "matched_seeds.csv", index=False)
+
     # Table 12 (AME) and the headline claims
     ame = []
     for ds in ("DS", "DSp", "DSpp"):
         for i, model in enumerate(("Prats", "Dou", "Garralda")):
             d = runs(ds, MODEL_DIR[model])
             ame.append({"dataset": ds, "model": model, "paper": PAPER["table12_AME"][DS_NAME[ds]][i],
-                        "ours_mean": d.AME.mean() if len(d) else np.nan,
-                        "ours_median": d.AME.median() if len(d) else np.nan, "n_seeds": len(d)})
+                        "ours_median": d.AME.median() if len(d) else np.nan,
+                        "ours_mean": d.AME.mean() if len(d) else np.nan, "n_seeds": len(d)})
     ame = pd.DataFrame(ame)
     ame.round(2).to_csv(COMPARISON / "ame.csv", index=False)
-    head = {"paper": PAPER["headline_claims"]}
-    for stat in ("mean", "median"):
+    head = {"aggregation_rule": "each metric per seed, the median over seeds; same rule everywhere",
+            "paper": PAPER["headline_claims"]}
+    for stat in ("median", "mean"):
         piv = ame.pivot(index="dataset", columns="model", values=f"ours_{stat}")
         if piv.isna().any().any():
             continue
@@ -101,7 +124,7 @@ def main():
     (COMPARISON / "headline.json").write_text(json.dumps(head, indent=2))
 
     show = df[df.metric.isin(["LOOCV_MAE", "LOGOCV_MAE", "LOOCV_HME", "LOGOCV_HME"])]
-    print(show[["table", "dataset", "model", "metric", "paper", "ours_mean", "ours_median", "n_seeds"]]
+    print(show[["table", "dataset", "model", "metric", "paper", "ours_median", "ours_mean", "n_seeds"]]
           .round(1).to_string(index=False))
     print(ame.round(1).to_string(index=False))
     print(json.dumps(head, indent=1))
