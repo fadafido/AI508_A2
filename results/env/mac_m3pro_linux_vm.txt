@@ -1,0 +1,18 @@
+label: mac_m3pro_linux_vm
+date_utc: 2026-11-09 14:26:26
+kernel: Linux 6.8.0-138-generic aarch64
+cpus: 4
+cpu: 
+cpu_implementer:  0x61
+memory: 3.8Gi
+os: "Ubuntu 22.04.5 LTS"
+disk_project: 461G total, 43G free
+java: openjdk version "11.0.32.1" 2026-08-18
+python: Python 3.10.12
+numpy: 1.26.4
+scipy: 1.12.0
+sklearn: 1.4.2
+pandas: 2.2.3
+joblib: 1.4.2
+matplotlib: 3.8.4
+pyspark: 3.5.9
