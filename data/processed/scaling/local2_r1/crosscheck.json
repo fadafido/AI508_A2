@@ -1,0 +1,13 @@
+{
+  "apps_spark": 215,
+  "apps_reference": 215,
+  "same_app_set": true,
+  "garralda_max_abs_diff": 3.54756224396624e-10,
+  "garralda_mean_abs_diff": 1.3379724619074932e-13,
+  "garralda_cells_diff_gt_1e-6": 0,
+  "garralda_cells": 21500,
+  "prats_max_rel_diff": 1.3028240116184086e-12,
+  "n_tasks_equal": true,
+  "exec_time_max_abs_diff_s": 1.1368683772161603e-13,
+  "input_bytes_equal": true
+}

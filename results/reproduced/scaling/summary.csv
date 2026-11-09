@@ -1,0 +1,4 @@
+mode,units,cores,total_s,total_min,total_max,reps,GB,all_match,speedup,efficiency,MB_per_s
+local,1,1,206.235,200.880,211.590,2,4.093,True,1.000,1.000,19.844
+local,2,2,154.075,149.170,158.980,2,4.093,True,1.339,0.669,26.562
+local,4,4,140.580,134.380,146.780,2,4.093,True,1.467,0.367,29.112

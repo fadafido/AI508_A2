@@ -1,0 +1,18 @@
+{
+  "tag": "local4_r1",
+  "chunks": 9,
+  "apps": 215,
+  "tasks": 1251335,
+  "log_bytes": 4092562038,
+  "timings": {
+    "session_s": 17.04,
+    "parse_tasks_s": 42.05,
+    "metadata_s": 13.15,
+    "descriptor_s": 54.73,
+    "prats_s": 7.24,
+    "total_s": 134.38
+  },
+  "master": "local[4]",
+  "default_parallelism": 4,
+  "spark_version": "3.5.9"
+}
