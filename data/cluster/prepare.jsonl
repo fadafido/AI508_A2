@@ -1,0 +1,15 @@
+{"workload":"sort","profile":"tiny","rc":0,"wall_s":3.20,"input_bytes":16571}
+{"workload":"wordcount","profile":"tiny","rc":0,"wall_s":3.16,"input_bytes":16869}
+{"workload":"terasort","profile":"tiny","rc":0,"wall_s":3.14,"input_bytes":3200000}
+{"workload":"repartition","profile":"tiny","rc":1,"wall_s":3.37,"input_bytes":0}
+{"workload":"repartition","profile":"tiny","rc":0,"wall_s":3.40,"input_bytes":320000}
+{"workload":"pagerank","profile":"tiny","rc":0,"wall_s":9.05,"input_bytes":10836}
+{"workload":"bayes","profile":"tiny","rc":0,"wall_s":22.39,"input_bytes":92873511}
+{"workload":"kmeans","profile":"tiny","rc":0,"wall_s":8.69,"input_bytes":1396218}
+{"workload":"sort","profile":"small","rc":0,"wall_s":3.13,"input_bytes":1642497}
+{"workload":"wordcount","profile":"small","rc":0,"wall_s":4.46,"input_bytes":164242871}
+{"workload":"terasort","profile":"small","rc":0,"wall_s":4.19,"input_bytes":320000000}
+{"workload":"repartition","profile":"small","rc":0,"wall_s":4.74,"input_bytes":320000000}
+{"workload":"pagerank","profile":"small","rc":0,"wall_s":9.97,"input_bytes":1813972}
+{"workload":"bayes","profile":"small","rc":0,"wall_s":26.24,"input_bytes":111496997}
+{"workload":"kmeans","profile":"small","rc":0,"wall_s":15.38,"input_bytes":602462550}

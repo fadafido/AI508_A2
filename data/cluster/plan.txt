@@ -1,0 +1,86 @@
+prepare sort tiny
+run sort tiny 3 1
+run sort tiny 1 1
+run sort tiny 3 2
+run sort tiny 2 2
+run sort tiny 1 2
+run sort tiny 2 1
+prepare wordcount tiny
+run wordcount tiny 2 1
+run wordcount tiny 2 2
+run wordcount tiny 1 2
+run wordcount tiny 3 2
+run wordcount tiny 3 1
+run wordcount tiny 1 1
+prepare terasort tiny
+run terasort tiny 2 1
+run terasort tiny 3 2
+run terasort tiny 2 2
+run terasort tiny 1 1
+run terasort tiny 1 2
+run terasort tiny 3 1
+prepare repartition tiny
+run repartition tiny 2 1
+run repartition tiny 3 2
+run repartition tiny 3 1
+run repartition tiny 1 2
+run repartition tiny 1 1
+run repartition tiny 2 2
+run sleep tiny 1 2
+run sleep tiny 2 1
+run sleep tiny 2 2
+run sleep tiny 3 2
+run sleep tiny 3 1
+run sleep tiny 1 1
+prepare pagerank tiny
+run pagerank tiny 1 2
+run pagerank tiny 2 1
+run pagerank tiny 1 1
+run pagerank tiny 2 2
+run pagerank tiny 3 2
+run pagerank tiny 3 1
+prepare bayes tiny
+run bayes tiny 3 2
+run bayes tiny 2 1
+run bayes tiny 2 2
+run bayes tiny 1 2
+run bayes tiny 3 1
+run bayes tiny 1 1
+prepare kmeans tiny
+run kmeans tiny 2 2
+run kmeans tiny 3 2
+run kmeans tiny 2 1
+run kmeans tiny 1 1
+run kmeans tiny 3 1
+run kmeans tiny 1 2
+prepare sort small
+run sort small 2 1
+run sort small 1 1
+run sort small 3 1
+prepare wordcount small
+run wordcount small 2 1
+run wordcount small 3 1
+run wordcount small 1 1
+prepare terasort small
+run terasort small 3 1
+run terasort small 1 1
+run terasort small 2 1
+prepare repartition small
+run repartition small 2 1
+run repartition small 1 1
+run repartition small 3 1
+run sleep small 2 1
+run sleep small 1 1
+run sleep small 3 1
+prepare pagerank small
+run pagerank small 2 1
+run pagerank small 1 1
+run pagerank small 3 1
+prepare bayes small
+prepare kmeans small
+run kmeans small 1 1
+run kmeans small 3 1
+run kmeans small 2 1
+run bayes small 1 1
+run bayes small 3 1
+run bayes small 2 1

@@ -1,0 +1,3 @@
+run kmeans small 3 1
+run kmeans small 2 1
+run repartition small 2 1

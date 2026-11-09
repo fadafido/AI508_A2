@@ -1,0 +1,41 @@
+prepare sort tiny	ok	3
+run sort tiny 3 1	ok	11
+run sort tiny 1 1	ok	21
+run sort tiny 3 2	ok	9
+run sort tiny 2 2	ok	13
+run sort tiny 1 2	ok	18
+run sort tiny 2 1	ok	13
+prepare wordcount tiny	ok	3
+run wordcount tiny 2 1	ok	6
+run wordcount tiny 2 2	ok	7
+run wordcount tiny 1 2	ok	5
+run wordcount tiny 3 2	ok	6
+run wordcount tiny 3 1	ok	6
+run wordcount tiny 1 1	ok	5
+prepare terasort tiny	ok	3
+run terasort tiny 2 1	ok	13
+run terasort tiny 3 2	ok	11
+run terasort tiny 2 2	ok	13
+run terasort tiny 1 1	ok	20
+run terasort tiny 1 2	ok	20
+run terasort tiny 3 1	ok	10
+prepare repartition tiny	ok	3
+run repartition tiny 2 1	ok	8
+run repartition tiny 3 2	ok	6
+run repartition tiny 3 1	ok	6
+run repartition tiny 1 2	ok	6
+run repartition tiny 1 1	ok	5
+run repartition tiny 2 2	ok	7
+run sleep tiny 1 2	ok	8
+run sleep tiny 2 1	ok	9
+run sleep tiny 2 2	ok	7
+run sleep tiny 3 2	ok	7
+run sleep tiny 3 1	ok	7
+run sleep tiny 1 1	ok	6
+prepare pagerank tiny	ok	9
+run pagerank tiny 1 2	ok	5
+run pagerank tiny 2 1	ok	6
+run pagerank tiny 1 1	ok	6
+run pagerank tiny 2 2	ok	8
+run pagerank tiny 3 2	ok	8
+run pagerank tiny 3 1	ok	8

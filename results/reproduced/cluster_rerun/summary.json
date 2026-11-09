@@ -1,0 +1,119 @@
+{
+  "n_original": 215,
+  "n_reruns": 69,
+  "reruns_per_workload": {
+    "bayes/small": 6,
+    "kmeans/medium": 3,
+    "kmeans/small": 6,
+    "pagerank/medium": 3,
+    "pagerank/small": 6,
+    "repartition/medium": 3,
+    "repartition/small": 6,
+    "sleep/medium": 3,
+    "sleep/small": 6,
+    "sort/medium": 3,
+    "sort/small": 6,
+    "terasort/medium": 3,
+    "terasort/small": 6,
+    "wordcount/medium": 3,
+    "wordcount/small": 6
+  },
+  "garralda": {
+    "reruns_top1": 0.957,
+    "reruns_hit3": 0.971,
+    "reruns_top1_same_size": 0.551,
+    "reruns_median_rank_first_same": 1.0,
+    "loo_2022_top1_all": 0.991,
+    "loo_2022_top1_same_workloads": 1.0,
+    "loo_2022_hit3_same_workloads": 1.0,
+    "by_workload_top1": {
+      "bayes": 0.67,
+      "kmeans": 1.0,
+      "pagerank": 1.0,
+      "repartition": 1.0,
+      "sleep": 0.89,
+      "sort": 1.0,
+      "terasort": 1.0,
+      "wordcount": 1.0
+    },
+    "confused_with": {
+      "bayes": {
+        "gbt": 1,
+        "pca": 1
+      },
+      "sleep": {
+        "scan": 1
+      }
+    },
+    "distances_median": {
+      "to_2022_same_setting": 1.383,
+      "to_2022_same_workload_size": 1.569,
+      "to_other_rep": 0.986,
+      "to_2022_other_workloads_median": 3.422,
+      "2022_same_workload_size_other_setting": 1.424
+    }
+  },
+  "prats": {
+    "reruns_top1": 0.913,
+    "reruns_hit3": 0.928,
+    "reruns_top1_same_size": 0.899,
+    "reruns_median_rank_first_same": 1.0,
+    "loo_2022_top1_all": 0.893,
+    "loo_2022_top1_same_workloads": 0.833,
+    "loo_2022_hit3_same_workloads": 0.931,
+    "by_workload_top1": {
+      "bayes": 1.0,
+      "kmeans": 1.0,
+      "pagerank": 1.0,
+      "repartition": 1.0,
+      "sleep": 1.0,
+      "sort": 1.0,
+      "terasort": 1.0,
+      "wordcount": 0.33
+    },
+    "confused_with": {
+      "wordcount": {
+        "pagerank": 6
+      }
+    },
+    "distances_median": {
+      "to_2022_same_setting": 0.061,
+      "to_2022_same_workload_size": 0.24,
+      "to_other_rep": 0.015,
+      "to_2022_other_workloads_median": 1.019,
+      "2022_same_workload_size_other_setting": 0.294
+    }
+  },
+  "times": {
+    "median_ratio_vm_over_2022": 0.373,
+    "spearman_cells": 0.722,
+    "spearman_p": 2.2316054674507748e-08,
+    "n_cells": 45
+  },
+  "model": {
+    "2022": {
+      "MAE": 19.84,
+      "median_AE": 17.78,
+      "MAPE_pct": 270.7,
+      "neighbour_same_workload": 0.63,
+      "mean_k": 11.7,
+      "n_failed": 0
+    },
+    "2022+vm_other": {
+      "MAE": 14.73,
+      "median_AE": 11.23,
+      "MAPE_pct": 194.2,
+      "neighbour_same_workload": 0.63,
+      "mean_k": 10.5,
+      "n_failed": 0
+    },
+    "vm_other": {
+      "MAE": 6.62,
+      "median_AE": 3.31,
+      "MAPE_pct": 58.7,
+      "neighbour_same_workload": 0.0,
+      "mean_k": 12.8,
+      "n_failed": 0
+    }
+  }
+}

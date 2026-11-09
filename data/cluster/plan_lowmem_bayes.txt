@@ -1,0 +1,3 @@
+run bayes small 2 1
+run bayes small 1 1
+run bayes small 3 1
