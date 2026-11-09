@@ -1,0 +1,16 @@
+{
+  "chunks": 9,
+  "apps": 215,
+  "tasks": 1251335,
+  "log_bytes": 4092562038,
+  "timings_sum": {
+    "session_s": 18.39,
+    "parse_tasks_s": 43.96,
+    "metadata_s": 13.85,
+    "descriptor_s": 57.55,
+    "prats_s": 7.51,
+    "total_s": 141.4
+  },
+  "master": "local[*]",
+  "spark_version": "3.5.9"
+}
