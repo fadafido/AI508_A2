@@ -103,3 +103,11 @@ of executors, cores and shuffle partitions. Executor memory is divided by 4 beca
 about 4 GB of RAM, the driver gets 512 MB, and `spark.scheduler.minRegisteredResourcesRatio=0.8` (the YARN
 default) so jobs wait for their executors like on YARN. Details and the exceptions are in
 `docs/cluster.md`.
+
+### D-20 Campaign 2 sizing (VM 2)
+VM 2 has 8 vCPUs and 10 GB of RAM, so campaign 2 runs with executor memory divided by 2 instead of 4
+(MEM_DIV=2: 2 GB for setting 1, 1.5 GB for settings 2 and 3), worker daemons at 2 GB, driver at 1 GB,
+and the same 3 workers x 4 cores as campaign 1. Campaign 2 writes to `data/cluster2/` with benchmark
+group id `rerun-vm2` (campaign 1: `rerun-vm`), so runs of the two campaigns can't mix. Same plan
+generator and seed as campaign 1 (8 workloads, settings 1-3, tiny x2 and small x1), with bayes small
+back in because the memory that killed it on VM 1 is no longer the limit.

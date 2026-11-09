@@ -11,9 +11,11 @@
    off the predictions are with history = 2022 runs / 2022 + VM runs of the other workloads / only
    VM runs of the other workloads.
 
-    python src/analysis/cluster_rerun.py
-Output: results/reproduced/cluster_rerun/
+    python src/analysis/cluster_rerun.py [--cluster cluster2]
+--cluster names the campaign folder (data/<cluster>, data/processed/<cluster>).
+Output: results/reproduced/cluster_rerun/ (campaign 2: cluster_rerun2/)
 """
+import argparse
 import json
 import sys
 import warnings
@@ -30,8 +32,12 @@ from src.common.paths import DATA, PROCESSED, REPRODUCED  # noqa: E402
 from src.experiments.datasets import CS_COLS  # noqa: E402
 from src.featuriser.descriptor import FEATURE_NAMES  # noqa: E402
 
-OUT = REPRODUCED / "cluster_rerun"
-# the settings as in the paper; the VM ran them with executor memory / 4 (scripts/cluster/env.sh)
+ap = argparse.ArgumentParser()
+ap.add_argument("--cluster", default="cluster", help="campaign folder under data/ and data/processed/")
+ARGS = ap.parse_args()
+CLUSTER = ARGS.cluster
+OUT = REPRODUCED / ("cluster_rerun" + CLUSTER.removeprefix("cluster"))
+# the settings as in the paper; the VM ran them with a smaller executor memory (scripts/cluster/env.sh)
 NOMINAL = {1: (1, 1.0, 4, 1, 4.0, 200), 2: (1, 1.0, 3, 3, 3.0, 200), 3: (1, 1.0, 3, 3, 3.0, 100)}
 
 
@@ -43,8 +49,8 @@ def load(folder):
 
 
 def load_reruns():
-    apps, g, p = load(PROCESSED / "cluster")
-    runs = pd.DataFrame([json.loads(x) for x in open(DATA / "cluster" / "runs.jsonl")])
+    apps, g, p = load(PROCESSED / CLUSTER)
+    runs = pd.DataFrame([json.loads(x) for x in open(DATA / CLUSTER / "runs.jsonl")])
     runs = runs[runs.rc == 0].drop_duplicates("tag", keep="last").copy()
     runs["app"] = runs["app"] + "_" + runs["workload"]
     apps = apps.merge(runs[["app", "tag", "rep", "setting", "wall_s"]], on="app", how="left")
@@ -67,8 +73,22 @@ def recognition(D, wl_query, sc_query, wl_ref, sc_ref):
         rows.append({"nn_workload": wl_ref[o[0]], "top1": bool(same[0]), "hit3": bool(same[:3].any()),
                      "rank_first_same": int(np.argmax(same)) + 1 if same.any() else None,
                      "top1_same_size": bool(same[0] and sc_ref[o[0]] == sc_query[i]),
+                     "top1_size": bool(sc_ref[o[0]] == sc_query[i]),
                      "d_nn": float(D[i, o[0]])})
     return pd.DataFrame(rows)
+
+
+def loo_recognition(Xo, wl_o, sc_o):
+    """Leave-one-out self-check on the 2022 runs: the scaler is refitted without the held-out run,
+    so the query doesn't influence its own scaling."""
+    rows = []
+    for i in range(len(Xo)):
+        rest = np.delete(np.arange(len(Xo)), i)
+        sc = MinMaxScaler().fit(Xo[rest])
+        q, G = sc.transform(Xo[i:i + 1]), sc.transform(Xo[rest])
+        D = dist(q, G)
+        rows.append(recognition(D, wl_o[i:i + 1], sc_o[i:i + 1], wl_o[rest], sc_o[rest]).iloc[0])
+    return pd.DataFrame(rows).reset_index(drop=True)
 
 
 def main():
@@ -88,23 +108,26 @@ def main():
         sc = MinMaxScaler().fit(Xo)
         A, B = sc.transform(Xo), sc.transform(Xr)
         rec = recognition(dist(B, A), wl_r, sc_r, wl_o, sc_o)
-        Doo = dist(A, A)
-        np.fill_diagonal(Doo, np.inf)
-        loo = recognition(Doo, wl_o, sc_o, wl_o, sc_o)
+        loo = loo_recognition(Xo, wl_o, sc_o)
         loo_sub = loo[np.isin(wl_o, rerun_wl)]
         for c in rec.columns:
             per_run[f"{name}_{c}"] = rec[c].values
         summary[name] = {
             "reruns_top1": round(rec.top1.mean(), 3), "reruns_hit3": round(rec.hit3.mean(), 3),
             "reruns_top1_same_size": round(rec.top1_same_size.mean(), 3),
+            "reruns_top1_size": round(rec.top1_size.mean(), 3),
             "reruns_median_rank_first_same": float(np.nanmedian(rec.rank_first_same.astype(float))),
             "loo_2022_top1_all": round(loo.top1.mean(), 3),
             "loo_2022_top1_same_workloads": round(loo_sub.top1.mean(), 3),
             "loo_2022_hit3_same_workloads": round(loo_sub.hit3.mean(), 3),
+            "loo_2022_top1_size_all": round(loo.top1_size.mean(), 3),
             "by_workload_top1": rec.groupby(wl_r).top1.mean().round(2).to_dict(),
             "confused_with": rec[~rec.top1].groupby(wl_r[~rec.top1.values]).nn_workload
                              .agg(lambda s: s.value_counts().to_dict()).to_dict(),
         }
+        pw = rec.assign(workload=wl_r, scale=sc_r).groupby(["workload", "scale"]).agg(
+            n=("top1", "size"), top1=("top1", "mean"), hit3=("hit3", "mean"), top1_size=("top1_size", "mean"))
+        pw.round(3).to_csv(OUT / f"per_workload_{name}.csv")
 
         # distances in the scaled space
         rows = []
@@ -170,47 +193,52 @@ def main():
 
 
 def model_on_reruns(o_apps, o_g, r_apps, r_g, k_range=(3, 18), lam=0.5):
-    """The authors' unsupervised + NNLS stages, one re-run at a time."""
+    """The authors' unsupervised + NNLS stages, one re-run at a time. The configuration vector of a
+    re-run is either the paper's nominal setting (nominal_cs) or the settings the VM really ran with,
+    read from its event log (actual_cs, mainly a smaller executor memory)."""
     from src.experiments.cv import _authors
     algorithm = _authors()[0]
     warnings.filterwarnings("ignore")
     o_cs = o_apps[CS_COLS].values.astype(float)
-    r_cs = np.array([NOMINAL[s] for s in r_apps.setting], float)
     o_t, r_t = o_apps.exec_time_s.values.astype(float), r_apps.exec_time_s.values.astype(float)
-    histories = {
-        "2022": lambda i: (o_g, o_t, o_cs, o_apps.workload.values),
-        "2022+vm_other": lambda i: (np.vstack([o_g, r_g[other(i)]]), np.r_[o_t, r_t[other(i)]],
-                                    np.vstack([o_cs, r_cs[other(i)]]),
-                                    np.r_[o_apps.workload.values, r_apps.workload.values[other(i)]]),
-        "vm_other": lambda i: (r_g[other(i)], r_t[other(i)], r_cs[other(i)], r_apps.workload.values[other(i)]),
-    }
+    variants = {"nominal_cs": np.array([NOMINAL[s] for s in r_apps.setting], float),
+                "actual_cs": r_apps[CS_COLS].values.astype(float)}
 
     def other(i):
         return np.where(r_apps.workload.values != r_apps.workload.values[i])[0]
 
     out, rows = {}, []
-    for name, h in histories.items():
-        pred, purity, ks = [], [], []
-        for i in range(len(r_apps)):
-            W, T, CS, wl = h(i)
-            kmax = min(k_range[1], len(T) - 1)
-            try:
-                idx = algorithm.UnsupervisedStage().get_optimal_insightful_neighbors(W, T, r_g[i], k_range[0], kmax, lam)
-                reg = algorithm.SupervisedStage().get_non_negative_least_squares_regressor_model(X=CS[idx], y=T[idx])
-                p = float(np.ravel(reg.predict(r_cs[i].reshape(1, -1)))[0])
-            except Exception:       # same as the authors' CV loop: drop the sample
-                idx, p = np.array([], int), np.nan
-            pred.append(p)
-            purity.append(float(np.mean(wl[idx] == r_apps.workload.values[i])) if len(idx) else np.nan)
-            ks.append(len(idx))
-        pred = np.array(pred)
-        err = np.abs(pred - r_t)
-        out[name] = {"MAE": round(float(np.nanmean(err)), 2), "median_AE": round(float(np.nanmedian(err)), 2),
-                     "MAPE_pct": round(float(np.nanmean(err / r_t) * 100), 1),
-                     "neighbour_same_workload": round(float(np.nanmean(purity)), 3),
-                     "mean_k": round(float(np.mean(ks)), 1), "n_failed": int(np.isnan(pred).sum())}
-        rows.append(pd.DataFrame({"app": r_apps.app, "history": name, "t_true": r_t, "t_pred": pred,
-                                  "neighbour_same_workload": purity, "k": ks}))
+    for vname, r_cs in variants.items():
+        histories = {
+            "2022": lambda i: (o_g, o_t, o_cs, o_apps.workload.values),
+            "2022+vm_other": lambda i: (np.vstack([o_g, r_g[other(i)]]), np.r_[o_t, r_t[other(i)]],
+                                        np.vstack([o_cs, r_cs[other(i)]]),
+                                        np.r_[o_apps.workload.values, r_apps.workload.values[other(i)]]),
+            "vm_other": lambda i: (r_g[other(i)], r_t[other(i)], r_cs[other(i)], r_apps.workload.values[other(i)]),
+        }
+        out[vname] = {}
+        for name, h in histories.items():
+            pred, purity, ks = [], [], []
+            for i in range(len(r_apps)):
+                W, T, CS, wl = h(i)
+                kmax = min(k_range[1], len(T) - 1)
+                try:
+                    idx = algorithm.UnsupervisedStage().get_optimal_insightful_neighbors(W, T, r_g[i], k_range[0], kmax, lam)
+                    reg = algorithm.SupervisedStage().get_non_negative_least_squares_regressor_model(X=CS[idx], y=T[idx])
+                    p = float(np.ravel(reg.predict(r_cs[i].reshape(1, -1)))[0])
+                except Exception:       # same as the authors' CV loop: drop the sample
+                    idx, p = np.array([], int), np.nan
+                pred.append(p)
+                purity.append(float(np.mean(wl[idx] == r_apps.workload.values[i])) if len(idx) else np.nan)
+                ks.append(len(idx))
+            pred = np.array(pred)
+            err = np.abs(pred - r_t)
+            out[vname][name] = {"MAE": round(float(np.nanmean(err)), 2), "median_AE": round(float(np.nanmedian(err)), 2),
+                                "MAPE_pct": round(float(np.nanmean(err / r_t) * 100), 1),
+                                "neighbour_same_workload": round(float(np.nanmean(purity)), 3),
+                                "mean_k": round(float(np.mean(ks)), 1), "n_failed": int(np.isnan(pred).sum())}
+            rows.append(pd.DataFrame({"app": r_apps.app, "cs": vname, "history": name, "t_true": r_t, "t_pred": pred,
+                                      "neighbour_same_workload": purity, "k": ks}))
     pd.concat(rows).to_csv(OUT / "model_predictions.csv", index=False)
     return out
 

@@ -41,14 +41,18 @@ rm -rf "$WORK"/spark-work/app-*
 bash "$HERE/start.sh" || { echo "cluster did not start"; exit 1; }
 echo "cluster up after $(elapsed)s, $n jobs left"
 
+declare -A badprep
 while read -r job; do
   [ -z "$job" ] && continue
   set -- $job
+  # a run whose data generation failed this session would read stale or empty input (I-20)
+  if [ "$1" = run ] && [ -n "${badprep[$2_$3]:-}" ]; then echo "skip  $job (prepare failed)"; continue; fi
   need=$(guess "$1" "$2" "$3")
   [ $(( $(elapsed) + need + 15 )) -gt "$BUDGET" ] && break
   t=$(date +%s)
   if bash "$HERE/hibench.sh" $job >/dev/null 2>"$WORK/last_job.err"; then st=ok; else st=failed; fi
   d=$(( $(date +%s) - t ))
+  [ "$1" = prepare ] && [ "$st" = failed ] && badprep[$2_$3]=1
   printf '%s\t%s\t%s\n' "$job" "$st" "$d" >> "$PROG"
   echo "$st  $job  (${d}s)"
 done < <(pending)

@@ -10,6 +10,7 @@ PY26=${PY26:-$HOME/.venvs/ai508a2-fgcs2026/bin/python}
 export PY
 ALL="fetch env patches raw parse descriptors audit validate spark paper_audit anchor experiments scaling reruns compare"
 STEPS=${STEPS:-$ALL}
+CLUSTER=${CLUSTER:-cluster}   # which re-run campaign the reruns step works on (data/$CLUSTER)
 mkdir -p logs
 run() { local s=$1; shift; echo "[$(date '+%F %T')] >>> $s"; "$@" > "logs/run_all_$s.log" 2>&1 && echo "[$(date '+%F %T')] ok  $s" || { echo "[$(date '+%F %T')] FAILED $s (see logs/run_all_$s.log)"; return 1; }; }
 for s in $STEPS; do case $s in
@@ -23,7 +24,7 @@ for s in $STEPS; do case $s in
   validate)    run validate $PY src/validation/jpdc_clustering.py ;;
   spark)       run spark env BUDGET=100000 PY=$PY bash scripts/spark_featurise_chunked.sh ;;
   scaling)     run scaling bash -c "PY=$PY bash scripts/scaling.sh && $PY src/analysis/scaling_summary.py" ;;
-  reruns)      run reruns bash -c "$PY src/featuriser/parse_logs.py --logs data/cluster/eventlogs --out data/interim/cluster && $PY src/featuriser/build_descriptors.py --interim data/interim/cluster --out data/processed/cluster && $PY src/analysis/cluster_rerun.py" ;;
+  reruns)      run reruns bash -c "$PY src/featuriser/parse_logs.py --logs data/$CLUSTER/eventlogs --out data/interim/$CLUSTER && $PY src/featuriser/build_descriptors.py --interim data/interim/$CLUSTER --out data/processed/$CLUSTER && $PY src/analysis/cluster_rerun.py --cluster $CLUSTER" ;;
   paper_audit) run paper_audit $PY src/analysis/audit_paper_tables.py ;;
   anchor)      run anchor $PY26 src/experiments/run_fgcs2026_anchor.py garralda ;;
   experiments) run experiments bash scripts/run_experiments.sh ;;

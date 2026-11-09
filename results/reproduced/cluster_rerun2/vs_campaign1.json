@@ -1,0 +1,21 @@
+{
+  "n_campaign1": 69,
+  "n_campaign2": 72,
+  "n_matched": 69,
+  "d_matched_median": 1.116,
+  "rep_noise_campaign1_median": 0.986,
+  "rep_noise_campaign2_median": 0.994,
+  "d_other_workloads_median": 3.364,
+  "c2_nearest_c1_same_workload": 1.0,
+  "times": {
+    "median_ratio_c2_over_c1": 0.793,
+    "spearman_cells": 0.967,
+    "n_cells": 45
+  },
+  "features_moving_most": [
+    "Result Serialization Time",
+    "Shuffle Read: Fetch Wait Time",
+    "Executor Deserialize CPU Time",
+    "Executor Run Time"
+  ]
+}

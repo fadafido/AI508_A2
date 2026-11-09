@@ -1,0 +1,148 @@
+{
+  "n_original": 215,
+  "n_reruns": 72,
+  "reruns_per_workload": {
+    "bayes/medium": 3,
+    "bayes/small": 6,
+    "kmeans/medium": 3,
+    "kmeans/small": 6,
+    "pagerank/medium": 3,
+    "pagerank/small": 6,
+    "repartition/medium": 3,
+    "repartition/small": 6,
+    "sleep/medium": 3,
+    "sleep/small": 6,
+    "sort/medium": 3,
+    "sort/small": 6,
+    "terasort/medium": 3,
+    "terasort/small": 6,
+    "wordcount/medium": 3,
+    "wordcount/small": 6
+  },
+  "garralda": {
+    "reruns_top1": 0.986,
+    "reruns_hit3": 1.0,
+    "reruns_top1_same_size": 0.625,
+    "reruns_top1_size": 0.639,
+    "reruns_median_rank_first_same": 1.0,
+    "loo_2022_top1_all": 0.991,
+    "loo_2022_top1_same_workloads": 1.0,
+    "loo_2022_hit3_same_workloads": 1.0,
+    "loo_2022_top1_size_all": 0.595,
+    "by_workload_top1": {
+      "bayes": 1.0,
+      "kmeans": 1.0,
+      "pagerank": 1.0,
+      "repartition": 0.89,
+      "sleep": 1.0,
+      "sort": 1.0,
+      "terasort": 1.0,
+      "wordcount": 1.0
+    },
+    "confused_with": {
+      "repartition": {
+        "terasort": 1
+      }
+    },
+    "distances_median": {
+      "to_2022_same_setting": 1.385,
+      "to_2022_same_workload_size": 1.576,
+      "to_other_rep": 0.994,
+      "to_2022_other_workloads_median": 3.388,
+      "2022_same_workload_size_other_setting": 1.442
+    }
+  },
+  "prats": {
+    "reruns_top1": 0.944,
+    "reruns_hit3": 0.944,
+    "reruns_top1_same_size": 0.931,
+    "reruns_top1_size": 0.972,
+    "reruns_median_rank_first_same": 1.0,
+    "loo_2022_top1_all": 0.884,
+    "loo_2022_top1_same_workloads": 0.833,
+    "loo_2022_hit3_same_workloads": 0.917,
+    "loo_2022_top1_size_all": 0.837,
+    "by_workload_top1": {
+      "bayes": 1.0,
+      "kmeans": 1.0,
+      "pagerank": 1.0,
+      "repartition": 1.0,
+      "sleep": 1.0,
+      "sort": 1.0,
+      "terasort": 1.0,
+      "wordcount": 0.56
+    },
+    "confused_with": {
+      "wordcount": {
+        "pagerank": 4
+      }
+    },
+    "distances_median": {
+      "to_2022_same_setting": 0.058,
+      "to_2022_same_workload_size": 0.228,
+      "to_other_rep": 0.013,
+      "to_2022_other_workloads_median": 1.051,
+      "2022_same_workload_size_other_setting": 0.35
+    }
+  },
+  "times": {
+    "median_ratio_vm_over_2022": 0.304,
+    "spearman_cells": 0.701,
+    "spearman_p": 2.9594167455993855e-08,
+    "n_cells": 48
+  },
+  "model": {
+    "nominal_cs": {
+      "2022": {
+        "MAE": 22.14,
+        "median_AE": 19.23,
+        "MAPE_pct": 329.6,
+        "neighbour_same_workload": 0.688,
+        "mean_k": 10.5,
+        "n_failed": 0
+      },
+      "2022+vm_other": {
+        "MAE": 17.15,
+        "median_AE": 14.77,
+        "MAPE_pct": 247.7,
+        "neighbour_same_workload": 0.677,
+        "mean_k": 10.1,
+        "n_failed": 0
+      },
+      "vm_other": {
+        "MAE": 4.43,
+        "median_AE": 2.09,
+        "MAPE_pct": 49.6,
+        "neighbour_same_workload": 0.0,
+        "mean_k": 13.2,
+        "n_failed": 0
+      }
+    },
+    "actual_cs": {
+      "2022": {
+        "MAE": 21.25,
+        "median_AE": 19.23,
+        "MAPE_pct": 317.6,
+        "neighbour_same_workload": 0.688,
+        "mean_k": 10.5,
+        "n_failed": 0
+      },
+      "2022+vm_other": {
+        "MAE": 14.54,
+        "median_AE": 12.11,
+        "MAPE_pct": 191.5,
+        "neighbour_same_workload": 0.677,
+        "mean_k": 10.1,
+        "n_failed": 0
+      },
+      "vm_other": {
+        "MAE": 4.43,
+        "median_AE": 2.09,
+        "MAPE_pct": 49.6,
+        "neighbour_same_workload": 0.0,
+        "mean_k": 13.2,
+        "n_failed": 0
+      }
+    }
+  }
+}

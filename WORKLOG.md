@@ -109,3 +109,32 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
   HDFS, 18080 a Spark history server over the event-log folder). Start test: cluster up in 21 s, one
   live datanode, 3 workers, all three UIs answer from the Mac. The VM's hostname resolves, so the
   unshare workaround of VM 1 doesn't trigger.
+
+### Cluster campaign 2 (VM 2)
+- 17:16 Campaign plumbing: env.sh takes the output folder (AI508_OUT) and a campaign id (AI508_CAMPAIGN,
+  the Spark benchmark group id, also written into runs.jsonl), run_all.sh and cluster_rerun.py take the
+  campaign folder. Campaign 2: data/cluster2/, group id rerun-vm2, executor memory / 2 instead of / 4
+  (D-20). Same 86-job plan as campaign 1 (seed 7) plus bayes small, which VM 1 couldn't run. Smoke test
+  (prepare + sort tiny under setting 1), then the whole plan in tmux.
+- 17:19 to 17:32 First pass: 73 of 86 jobs ok in 777 s. The pagerank and bayes data generation failed:
+  the generator shares its dictionary and Zipf tables through DistributedCache symlinks created in the
+  working directory, and the Multipass project mount refuses symlinks (I-20). The 9 pagerank runs read
+  a 4-byte leftover input and finished in 3 s as "ok"; moved to data/cluster2/superseded/. hibench.sh
+  now changes into the work folder on the VM disk first, and step.sh skips runs whose data generation
+  failed in the same session.
+- 17:38 to 17:43 Re-ran the 22 open jobs: all 86 ok (881 s of job time in total). bayes small works on
+  VM 2 (3 GB of executors against 10 GB of RAM), so campaign 2 has all 72 runs, 9 per workload.
+- 17:45 Featurised and analysed campaign 2 (results/reproduced/cluster_rerun2/). Against 2022: top-1
+  recognition 71/72 (98.6%) for the Garralda descriptor (one repartition picks terasort), 68/72 (94.4%)
+  for Prats (wordcount picked as pagerank 4 times, like campaign 1). Size identification stays the
+  trade-off: 63.9% (Garralda) against 97.2% (Prats). Run times: median ratio 0.304 to 2022, Spearman
+  0.70 over 48 cells. Model on the re-runs (nominal settings): MAPE 330% with 2022 history, 248%
+  adding VM runs of other workloads, 50% with VM runs only; with the VM's actual executor memory in
+  the query vector: 318% and 192% (identical for VM-only history: the actual settings are the nominal
+  ones with memory halved, which the model's min-max scaling absorbs).
+- 17:46 Campaign 2 against campaign 1 (results/reproduced/cluster_rerun2/vs_campaign1.json): matched
+  runs are 1.12 apart in the scaled descriptor space, about the rep 1 vs rep 2 noise inside one
+  campaign (0.99 and 0.99) and far from other workloads (3.36); every campaign-2 run's nearest
+  campaign-1 run is the same workload (69/69). Campaign 2 runs 21% faster (median ratio 0.79,
+  Spearman 0.97). The descriptor stays put when only the resources change; what moves are the timing
+  features (serialisation, fetch wait), the same ones that move between the VM and 2022.

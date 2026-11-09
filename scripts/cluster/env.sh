@@ -26,7 +26,8 @@ HADOOP_EXAMPLES_JAR=$HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-example
 NN=hdfs://127.0.0.1:9000
 SPARK_MASTER_URL=spark://127.0.0.1:7077
 EVENTLOG_TMP=$WORK/eventlogs        # Spark writes the logs here first
-OUT=$PROJECT/data/cluster           # copied here after each run (eventlogs/, runs.jsonl, driver output)
+OUT=${AI508_OUT:-$PROJECT/data/cluster}   # copied here after each run (eventlogs/, runs.jsonl, driver output)
+CAMPAIGN=${AI508_CAMPAIGN:-rerun-vm}      # benchmark group id, so campaigns can't mix
 
 # 3 workers like the 2022 cluster. Cores are oversubscribed (the VM has 4) and executor memory
 # is divided by MEM_DIV in hibench.sh (see docs/cluster.md).

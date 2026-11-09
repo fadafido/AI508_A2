@@ -1,0 +1,26 @@
+feature,c2_vs_c1
+Result Serialization Time,0.7064533199164803
+Shuffle Read: Fetch Wait Time,0.6106636359057582
+Executor Deserialize CPU Time,0.5693424162272536
+Executor Run Time,0.5429705932705625
+Executor CPU Time,0.454705965176077
+Executor Deserialize Time,0.42421027186313287
+JVM GC Time,0.4044380232653639
+Shuffle Read: Local Blocks Fetched,0.37311845398779936
+Shuffle Read: Local Bytes Read,0.3714904682059933
+Shuffle Read: Remote Bytes Read,0.26304111105639355
+Shuffle Read: Remote Blocks Fetched,0.24758090378072162
+Result Size,0.1987883605626168
+Shuffle Write: Write Time,0.1608027222604529
+Peak Execution Memory,0.150836572911862
+Input: Records Read,0.07605941107187882
+Shuffle Read: Records Read,0.06478430606139089
+Output: Records Written,0.061847678948652215
+Output: Bytes Written,0.04806479705290551
+Input: Bytes Read,0.03721933252667342
+Shuffle Write: Records Written,0.028422478985465346
+Tasks per Stage,0.027980049420498854
+Shuffle Write: Bytes Written,0.012908086083398065
+Memory Bytes Spilled,0.0
+Shuffle Read: Remote Bytes Read To Disk,0.0
+Disk Bytes Spilled,0.0

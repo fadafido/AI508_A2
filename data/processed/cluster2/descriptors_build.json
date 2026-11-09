@@ -1,0 +1,15 @@
+{
+  "apps": 72,
+  "variants": [
+    "default",
+    "order_log",
+    "order_finish",
+    "no_cusum_d1",
+    "no_cusum_d2",
+    "no_cusum_d3",
+    "cusum_d1",
+    "cusum_d3",
+    "no_final_minmax"
+  ],
+  "seconds": 0.3
+}

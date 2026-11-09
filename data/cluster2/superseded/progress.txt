@@ -1,0 +1,22 @@
+prepare pagerank tiny	failed	7
+run pagerank tiny 1 2	ok	4
+run pagerank tiny 2 1	ok	3
+run pagerank tiny 1 1	ok	4
+run pagerank tiny 2 2	ok	4
+run pagerank tiny 3 2	ok	3
+run pagerank tiny 3 1	ok	4
+prepare bayes tiny	failed	7
+run bayes tiny 3 2	failed	4
+run bayes tiny 2 1	failed	3
+run bayes tiny 2 2	failed	4
+run bayes tiny 1 2	failed	3
+run bayes tiny 3 1	failed	4
+run bayes tiny 1 1	failed	3
+prepare pagerank small	failed	8
+run pagerank small 2 1	ok	5
+run pagerank small 1 1	ok	3
+run pagerank small 3 1	ok	5
+prepare bayes small	failed	7
+run bayes small 1 1	failed	4
+run bayes small 3 1	failed	4
+run bayes small 2 1	failed	4

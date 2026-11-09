@@ -16,6 +16,10 @@
 set -uo pipefail
 HERE=$(cd "$(dirname "$0")" && pwd)
 source "$HERE/env.sh"
+# Local-mode MapReduce (the HiBench data generators) creates its DistributedCache symlinks in the
+# current directory, and the shared project mount refuses symlinks. Everything below uses absolute
+# paths, so run from the work folder on the VM's own disk.
+cd "$WORK"
 action=$1; W=$2; P=$3; S=${4:-2}; REP=${5:-1}
 
 MAPS=2      # hibench.default.map.parallelism, the original runs read 2 input files
@@ -122,7 +126,7 @@ SPARKBENCH_PROPERTIES_FILES=$pfile spark-submit --master "$SPARK_MASTER_URL" --d
   --conf spark.executor.instances=$EI --conf spark.sql.shuffle.partitions=$SH \
   --conf spark.scheduler.minRegisteredResourcesRatio=0.8 \
   --conf spark.app.benchmark.workload=$W --conf spark.app.benchmark.data.size=$P \
-  --conf spark.app.benchmark.group.id=rerun-vm --conf spark.app.benchmark.setting=$S \
+  --conf spark.app.benchmark.group.id=$CAMPAIGN --conf spark.app.benchmark.setting=$S \
   --conf spark.app.benchmark.rep=$REP \
   "$HIBENCH_JAR" $ARGS > "$log" 2>&1
 rc=$?
@@ -138,6 +142,6 @@ fi
 # each executor gets its own copy of the 118 MB HiBench jar in the worker dir, the VM disk fills up fast
 [ -n "$app" ] && rm -rf "$WORK/spark-work/$app"
 gzip -c "$log" > "$OUT/driver_logs/$tag.out.gz" && rm -f "$log"
-echo "{\"tag\":\"$tag\",\"workload\":\"$W\",\"profile\":\"$P\",\"scale\":\"$SCALE\",\"setting\":$S,\"rep\":$REP,\"app\":\"$app\",\"rc\":$rc,\"wall_s\":$wall,\"started\":\"$started\",\"executor_memory\":\"$EM\",\"driver_memory\":\"$DRIVER_MEM\",\"workers\":$N_WORKERS}" \
+echo "{\"tag\":\"$tag\",\"campaign\":\"$CAMPAIGN\",\"workload\":\"$W\",\"profile\":\"$P\",\"scale\":\"$SCALE\",\"setting\":$S,\"rep\":$REP,\"app\":\"$app\",\"rc\":$rc,\"wall_s\":$wall,\"started\":\"$started\",\"executor_memory\":\"$EM\",\"driver_memory\":\"$DRIVER_MEM\",\"workers\":$N_WORKERS}" \
   | tee -a "$OUT/runs.jsonl"
 exit $rc

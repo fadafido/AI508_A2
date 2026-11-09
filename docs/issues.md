@@ -93,3 +93,16 @@ VM (x86-64) and the Mac VM (ARM64) differ slightly. The Garralda descriptors dif
 (the least squares fit goes through LAPACK, which is built differently for each CPU), and the random
 forest baselines can pick different trees in near ties: Prats on DS has AME 219.96 on x86-64 and
 215.20 on ARM64. The Prats descriptors and the run metadata are bit-for-bit identical on both.
+
+### I-20 HiBench data generation needs a working directory that allows symlinks (campaign 2, blocking until fixed)
+The pagerank and bayes generators (`HiBench.DataGen`) share their word dictionary and Zipf tables with
+the map tasks through DistributedCache symlinks, and in local-mode MapReduce those symlinks are created
+in the current directory. On VM 2 that directory was the shared project mount, which refuses symlinks
+("Permission denied"), so both prepares died with a NullPointerException in `HtmlCore` after writing a
+4-byte input ("WARNING: dict empty!!!" in the generator log). The kmeans generator and the
+`hadoop-mapreduce-examples` generators don't use this mechanism and were unaffected, and VM 1's mount
+allowed symlinks, which is why campaign 1 never hit it. Worse, `step.sh` kept going after the failed
+prepare: the 6 pagerank tiny and 3 pagerank small runs read the 4-byte leftover, finished in about 3 s
+and were recorded as ok. Fixes: `hibench.sh` now changes into the work folder on the VM's own disk
+before running anything, and the invalid pagerank runs were moved to `data/cluster2/superseded/` and
+re-run with regenerated input. The bayes runs just failed on the missing input and re-ran normally.
