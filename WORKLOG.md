@@ -94,3 +94,18 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
 - 14:45 Prats on DS'' finished on the cloud VM: AME 135.35 (paper 143.45). Final comparison tables and
   figures, summary in `docs/results.md`. Against the paper's headline: the model beats Dou by 35% on
   average (paper 45%) but is only 1% better than Prats (paper 18%).
+
+### VM 2 (second VM on the Mac)
+- 16:45 VM 1 kills every session after 3 minutes, so the remaining work moves to a second Linux VM on
+  the same Mac, built with Multipass: Ubuntu 22.04.5, ARM64, 8 vCPUs, 10 GB RAM, 40 GB disk ("VM 2").
+  The project folder is mounted into the VM; the venvs (~/.venvs) and the cluster work folder
+  (~/ai508-cluster) stay on the VM's own disk because HDFS and Spark fail on the shared mount when
+  they chmod their directories.
+- 17:10 Same tool chain as VM 1: venvs with the pinned package versions (checked), JDK 8u512 aarch64,
+  Spark 2.4.8 and Hadoop 2.7.7; all downloads match `tools/downloads.sha256` and the HiBench jars
+  match `tools/hibench/SHA256SUMS`. Environment capture: `results/env/mac_m3pro_multipass_vm.txt`.
+- 17:14 The cluster keeps binding to 127.0.0.1; a socat systemd service forwards the web UIs to the
+  VM's address so I can watch runs from the Mac browser (8080 Spark master, 4040 running job, 50070
+  HDFS, 18080 a Spark history server over the event-log folder). Start test: cluster up in 21 s, one
+  live datanode, 3 workers, all three UIs answer from the Mac. The VM's hostname resolves, so the
+  unshare workaround of VM 1 doesn't trigger.

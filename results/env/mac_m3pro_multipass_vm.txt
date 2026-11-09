@@ -1,0 +1,18 @@
+label: mac_m3pro_multipass_vm
+date_utc: 2026-11-09 17:13:16
+kernel: Linux 5.15.0-203-generic aarch64
+cpus: 8
+cpu: 
+cpu_implementer:  0x61
+memory: 9.7Gi
+os: "Ubuntu 22.04.5 LTS"
+disk_project: 
+java: openjdk version "11.0.33" 2026-10-20
+python: Python 3.10.12
+numpy: 1.26.4
+scipy: 1.12.0
+sklearn: 1.4.2
+pandas: 2.2.3
+joblib: 1.4.2
+matplotlib: 3.8.4
+pyspark: 3.5.9
