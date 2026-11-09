@@ -1,0 +1,78 @@
+--- a/algorithm.py
++++ b/algorithm.py
+@@ -27,4 +27,5 @@
+ import math
+ import array
++from typing import Tuple  # [patch I-03] missing import, NameError on import
+ import numpy as np
+ from scipy.stats import pearsonr
+--- a/validation.py
++++ b/validation.py
+@@ -41,5 +41,5 @@
+ import numpy as np
+ from sklearn.model_selection import LeaveOneGroupOut, LeaveOneOut
+-from performance.domain.model.garralda_perf_model import GarraldaPerformanceModel
++from algorithm import GarraldaPerformanceModel  # [patch I-04] module path did not exist in the repo
+ from evaluation import EvaluationMetrics
+ 
+--- a/baselines/prats_perf_model.py
++++ b/baselines/prats_perf_model.py
+@@ -169,5 +169,5 @@
+         logocv = LeaveOneGroupOut()
+         # Split the data into training and test sets for each fold leaving one workload group out
+-       for train_index, test_index in logocv.split(X=self.w, groups=self.w_groups):
++        for train_index, test_index in logocv.split(X=self.w, groups=self.w_groups):  # [patch I-05] IndentationError
+             y_pred = []
+             y_true = []
+--- a/baselines/prats_perf_model.py
++++ b/baselines/prats_perf_model.py
+@@ -179,21 +179,24 @@
+ 
+             try:
++                # [patch I-06] published call used wrong keyword arguments and predicted the whole group at once
+                 trained_model = self.perf_model.get_random_forest_regressor_model(
+-                    X=w_train,
+-                    y=t_train
++                    workload_descriptors=w_train,
++                    input_data_sizes=ids_train,
++                    configuration_settings=cs_train,
++                    execution_times=t_train,
+                 )
+ 
+                 # For each sample in test_data (workload group) predict the execution time
+                 for i in range(len(w_test)):
+-                    prediction = trained_model.predict([
++                    prediction = trained_model.predict(
+                         np.concatenate(
+                             (
+-                                w_test,
+-                                ids_test,
+-                                cs_test
++                                w_test[i:i + 1],
++                                ids_test[i:i + 1],
++                                cs_test[i:i + 1]
+                             ),
+                             axis=1
+                         )
+-                    ])
++                    )
+                   
+                     y_pred.append(prediction[0])
+--- a/baselines/dou_perf_model.py
++++ b/baselines/dou_perf_model.py
+@@ -96,5 +96,5 @@
+             'rf__n_estimators': [10, 20, 50, 100, 200],
+             'rf__max_depth': [10, 20, None],
+-            'rf__max_features': ['auto', 'sqrt']
++            'rf__max_features': ['sqrt']  # [patch I-09] 'auto' no longer exists in scikit-learn 1.3+
+         }
+ 
+--- a/baselines/prats_perf_model.py
++++ b/baselines/prats_perf_model.py
+@@ -69,5 +69,5 @@
+             'rf__n_estimators': [10, 20, 50, 100, 200],
+             'rf__max_depth': [10, 20, None],
+-            'rf__max_features': ['auto', 'sqrt']
++            'rf__max_features': ['sqrt']  # [patch I-09] 'auto' no longer exists in scikit-learn 1.3+
+         }
+ 

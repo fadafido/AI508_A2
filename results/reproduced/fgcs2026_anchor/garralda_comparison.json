@@ -1,0 +1,39 @@
+{
+  "runner": "garralda_perf_model_runner.py",
+  "executions": 800,
+  "seconds": 3.3,
+  "comparison": [
+    {
+      "our_block": "model|beta=1.0",
+      "published_block": "RIDGE|beta=1.0",
+      "ours": {
+        "MAE": 163.045,
+        "RMSE": 517.132,
+        "P95": 903.808,
+        "Max": 4431.059,
+        "Kendall_tau": 0.694,
+        "Precision_at_10": 0.805,
+        "ESR_mu": 31.45
+      },
+      "published_file": {
+        "MAE": 163.045,
+        "RMSE": 517.132,
+        "P95": 903.808,
+        "Max": 4431.059,
+        "Kendall_tau": 0.694,
+        "Precision_at_10": 0.805,
+        "ESR_mu": 31.45
+      },
+      "identical_to_3_decimals": true
+    }
+  ],
+  "paper_table5_rounded": {
+    "MAE": 163,
+    "RMSE": 517,
+    "Residual_P95": 904,
+    "Residual_Max": 4431,
+    "Kendall_tau": 0.694,
+    "Precision_at_10": 0.805,
+    "ESR_mu": 31
+  }
+}
