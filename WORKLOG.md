@@ -89,3 +89,8 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
   predictions are unchanged, checked unit by unit. Restarted the DS'' baselines and the extra DS seeds.
 - 13:35 Comparison script (`src/analysis/compare_with_paper.py`) and figures (`src/analysis/figures.py`).
 - 13:50 Mac went offline in the middle of the extra DS baseline seeds.
+- 14:00 to 14:20 Extra DS baseline seeds on the Mac: Dou AME 298.75 and 303.18, Prats 219.51 and 211.14
+  (seed 0: 295.03 and 215.20).
+- 14:45 Prats on DS'' finished on the cloud VM: AME 135.35 (paper 143.45). Final comparison tables and
+  figures, summary in `docs/results.md`. Against the paper's headline: the model beats Dou by 35% on
+  average (paper 45%) but is only 1% better than Prats (paper 18%).

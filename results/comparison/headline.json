@@ -4,6 +4,42 @@
     "improvement_vs_Dou_AME_pct": 45,
     "overall_improvement_pct": 31
   },
+  "ours_mean": {
+    "improvement_pct_per_dataset": {
+      "Prats": {
+        "DS": -13.9,
+        "DSp": -8.3,
+        "DSpp": -85485.9
+      },
+      "Dou": {
+        "DS": 18.0,
+        "DSp": 38.0,
+        "DSpp": -59984.7
+      }
+    },
+    "improvement_pct_avg": {
+      "Prats": -28502.7,
+      "Dou": -19976.2
+    }
+  },
+  "ours_median": {
+    "improvement_pct_per_dataset": {
+      "Prats": {
+        "DS": -14.0,
+        "DSp": -8.1,
+        "DSpp": 26.0
+      },
+      "Dou": {
+        "DS": 17.9,
+        "DSp": 38.2,
+        "DSpp": 48.1
+      }
+    },
+    "improvement_pct_avg": {
+      "Prats": 1.3,
+      "Dou": 34.7
+    }
+  },
   "paper_recomputed_from_table12": {
     "improvement_pct_per_dataset": {
       "Prats": {
