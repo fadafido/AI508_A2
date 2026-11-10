@@ -203,7 +203,10 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
   (scaling.sh and spark_featurise_chunked.sh take LOGS and PREFIX now); the shared-mount set is kept
   next to it as the I/O-bound case. VM disk, medians of 2: 198, 147, 125, 138 s for 1, 2, 4, 8 cores;
   shared mount: 265, 213, 184, 206 s. Every run reproduces the reference descriptors. From the disk
-  every core count is 25 to 33% faster and the repetitions are far more repeatable (0.6 s apart at
-  1 core against 52 s through the mount), but the shape stays: the processing speed-up peaks at 1.7x
-  on 4 cores and drops at 8, so beyond 4 cores the limit is the 9-job structure with its few large
-  files per job, not the storage. Table, figure and explanation updated in docs/results.md.
+  every core count is 25 to 33% faster and the runs far more repeatable, but the speed-up still peaks
+  at 4 cores. The phases differ (medians at 1 / 4 / 8 cores): metadata keeps scaling (24.7, 11.5,
+  10.6 s), parsing stops at 4 (67.6, 37.6, 40.4 s), the descriptor phase gets slower at 8 (77.9,
+  51.9, 59.1 s), and the repetitions are 0.6 s apart at 1 and 4 cores but 12 s at 8. Candidate
+  causes this test can't separate: input skew (the largest log is 30 to 60% of its job's bytes) and
+  the Mac's 5 performance + 6 efficiency cores (8 vCPUs can't sit on performance cores alone).
+  Table, figure and explanation updated in docs/results.md.

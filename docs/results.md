@@ -61,13 +61,18 @@ How the metrics are computed (as the code computes them, which is what we reprod
   | shared mount | 8 | 206 | 23 | 182 | 1.33 | 19.9 |
 
   The Spark session start is about 20 s and constant, so it is not the main limit. Storage matters:
-  from the VM disk every core count is 25 to 33% faster than through the mount, and the repetitions
-  are far more repeatable (the two 1-core runs differ by 0.6 s on the disk and by 52 s through the
-  mount). But the shape survives the move: even from the local disk the processing part speeds up
-  only 1.7x at 4 cores and gets slower again at 8, so beyond 4 cores the limit is not the storage
-  either; the work is split into 9 separate Spark jobs (one per setting folder) whose few large files
-  bound the useful parallelism at this data size. VM 1 measured 206, 154, 141 s at 1, 2, 4 cores on
-  its faster mount, with the same shape.
+  from the VM disk every core count is 25 to 33% faster than through the mount, and the runs are far
+  more repeatable. But the shape survives the move: even from the local disk the processing part
+  speeds up only 1.7x at 4 cores and gets slower again at 8, and the phases behave differently
+  (per-phase medians on the VM disk at 1 / 4 / 8 cores): metadata extraction keeps scaling (24.7,
+  11.5, 10.6 s), parsing stops improving at 4 (67.6, 37.6, 40.4 s), and the descriptor phase gets
+  slower again at 8 (77.9, 51.9, 59.1 s). The two repetitions are 0.6 s apart at 1 and 4 cores but
+  12 s apart at 8 (through the mount: 36 to 65 s at every core count). Likely causes, which this
+  test cannot separate: the input is skewed (the largest event log holds 30 to 60% of its job's
+  bytes, up to 0.55 GB of a 0.90 GB job, although spark.read.text does split large files); and this
+  Mac has 5 performance and 6 efficiency cores, so 8 vCPUs cannot run on performance cores alone,
+  which would fit both the drop and the noise at 8. VM 1 measured 206, 154, 141 s at 1, 2, 4 cores
+  on its faster mount, with the same shape.
 
 ## 2. Check of the model code (FGCS 2026 anchor)
 
