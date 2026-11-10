@@ -196,3 +196,14 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
   legacy grid next to it, the corrected scaling explanation, both re-run campaigns described as
   queries against the 2022 gallery, the size-identification trade-off, and the ratio and incremental
   caveats. docs/cluster.md got the campaign 2 section, docs/environment.md the VM 2 table.
+
+## 10 November 2026
+
+- 02:50 to 03:20 Featuriser scaling repeated with the event logs copied to the VM's own disk
+  (scaling.sh and spark_featurise_chunked.sh take LOGS and PREFIX now); the shared-mount set is kept
+  next to it as the I/O-bound case. VM disk, medians of 2: 198, 147, 125, 138 s for 1, 2, 4, 8 cores;
+  shared mount: 265, 213, 184, 206 s. Every run reproduces the reference descriptors. From the disk
+  every core count is 25 to 33% faster and the repetitions are far more repeatable (0.6 s apart at
+  1 core against 52 s through the mount), but the shape stays: the processing speed-up peaks at 1.7x
+  on 4 cores and drops at 8, so beyond 4 cores the limit is the 9-job structure with its few large
+  files per job, not the storage. Table, figure and explanation updated in docs/results.md.

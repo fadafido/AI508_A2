@@ -44,21 +44,30 @@ How the metrics are computed (as the code computes them, which is what we reprod
     against 27.55.
   - Table 6: the Garralda descriptor beats the Prats descriptor on F-measure and NMI in all 8
     size/algorithm cells, as in the paper.
-- Scaling of the PySpark featuriser on VM 2 (4.09 GB read through the shared mount, 9 jobs per run,
-  median of 2 runs, every run reproduces the reference descriptors;
-  `results/reproduced/scaling/summary.csv`, per repetition and per phase in `runs.csv`):
+- Scaling of the PySpark featuriser on VM 2 (4.09 GB, 9 jobs per run, median of 2 repetitions, every
+  run reproduces the reference descriptors; `results/reproduced/scaling/summary.csv`, per repetition
+  and per phase in `runs.csv`). Two sets: the logs on the VM's own disk, and the same logs read
+  through the shared project mount (the I/O-bound case):
 
-  | Cores | Total (s) | Session start (s) | Processing (s) | Speed-up (processing) | MB/s |
-  |---|---|---|---|---|---|
-  | 1 | 265 | 22 | 243 | 1.00 | 15.4 |
-  | 2 | 213 | 22 | 191 | 1.27 | 19.2 |
-  | 4 | 184 | 22 | 162 | 1.50 | 22.3 |
-  | 8 | 206 | 23 | 182 | 1.33 | 19.9 |
+  | Logs on | Cores | Total (s) | Session start (s) | Processing (s) | Speed-up (processing) | MB/s |
+  |---|---|---|---|---|---|---|
+  | VM disk | 1 | 198 | 20 | 179 | 1.00 | 20.6 |
+  | VM disk | 2 | 147 | 18 | 129 | 1.39 | 27.8 |
+  | VM disk | 4 | 125 | 18 | 107 | 1.66 | 32.6 |
+  | VM disk | 8 | 138 | 21 | 117 | 1.53 | 29.7 |
+  | shared mount | 1 | 265 | 22 | 243 | 1.00 | 15.4 |
+  | shared mount | 2 | 213 | 22 | 191 | 1.27 | 19.2 |
+  | shared mount | 4 | 184 | 22 | 162 | 1.50 | 22.3 |
+  | shared mount | 8 | 206 | 23 | 182 | 1.33 | 19.9 |
 
-  The Spark session start is about 22 s and constant, so it is not the main limit: the processing part
-  itself only speeds up 1.5x at 4 cores and gets slower again at 8. At this data size the featuriser is
-  I/O bound (the logs are read from the shared project mount), not start-up bound. VM 1 measured lower
-  totals (206, 154, 141 s at 1, 2, 4 cores) on its faster mount, with the same shape.
+  The Spark session start is about 20 s and constant, so it is not the main limit. Storage matters:
+  from the VM disk every core count is 25 to 33% faster than through the mount, and the repetitions
+  are far more repeatable (the two 1-core runs differ by 0.6 s on the disk and by 52 s through the
+  mount). But the shape survives the move: even from the local disk the processing part speeds up
+  only 1.7x at 4 cores and gets slower again at 8, so beyond 4 cores the limit is not the storage
+  either; the work is split into 9 separate Spark jobs (one per setting folder) whose few large files
+  bound the useful parallelism at this data size. VM 1 measured 206, 154, 141 s at 1, 2, 4 cores on
+  its faster mount, with the same shape.
 
 ## 2. Check of the model code (FGCS 2026 anchor)
 

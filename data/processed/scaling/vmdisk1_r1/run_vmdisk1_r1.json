@@ -1,0 +1,18 @@
+{
+  "tag": "vmdisk1_r1",
+  "chunks": 9,
+  "apps": 215,
+  "tasks": 1251335,
+  "log_bytes": 4092562038,
+  "timings": {
+    "session_s": 19.55,
+    "parse_tasks_s": 67.48,
+    "metadata_s": 24.88,
+    "descriptor_s": 78.73,
+    "prats_s": 7.82,
+    "total_s": 198.68
+  },
+  "master": "local[1]",
+  "default_parallelism": 1,
+  "spark_version": "3.5.9"
+}

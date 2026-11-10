@@ -154,20 +154,27 @@ def scaling():
     f = REPRODUCED / "scaling" / "summary.csv"
     if not f.exists():
         return
-    g = pd.read_csv(f)
-    g = g[g["mode"] == "local"].sort_values("cores")
+    df = pd.read_csv(f)
+    modes = [("vmdisk", "logs on the VM disk", OURS_C), ("local", "logs on the shared mount", THIRD_C)]
+    df = df[df["mode"].isin([m for m, _, _ in modes])]
+    xs = sorted(df.cores.unique())
     fig, axes = plt.subplots(1, 2, figsize=(6.8, 2.6))
-    axes[0].plot(g.cores, g.total_s, "-o", color=OURS_C, ms=4)
+    for mode, label, colour in modes:
+        g = df[df["mode"] == mode].sort_values("cores")
+        if g.empty:
+            continue
+        axes[0].plot(g.cores, g.total_s, "-o", color=colour, ms=4, label=label)
+        axes[1].plot(g.cores, g.speedup, "-o", color=colour, ms=4, label=label)
     axes[0].set_xlabel("cores (Spark local mode)")
     axes[0].set_ylabel("featuriser run time (s)")
     axes[0].set_ylim(0, None)
-    axes[1].plot(g.cores, g.speedup, "-o", color=OURS_C, ms=4, label="measured")
-    axes[1].plot(g.cores, g.cores / g.cores.min(), "--", color=INK2, lw=1, label="linear")
+    axes[0].legend(fontsize=7)
+    axes[1].plot(xs, np.array(xs) / min(xs), "--", color=INK2, lw=1, label="linear")
     axes[1].set_xlabel("cores")
     axes[1].set_ylabel("speed-up")
-    axes[1].legend(fontsize=7.5)
+    axes[1].legend(fontsize=7)
     for ax in axes:
-        ax.set_xticks(g.cores)
+        ax.set_xticks(xs)
     save(fig, "featuriser_scaling.png")
 
 

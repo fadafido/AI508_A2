@@ -15,7 +15,7 @@ def main():
     for f in sorted((PROCESSED / "scaling").glob("*/run_*.json")):
         d = json.loads(f.read_text())
         tag = d.get("tag") or f.parent.name
-        m = re.match(r"(local|standalone_)(\d+)w?_r(\d+)", tag)
+        m = re.match(r"(local|vmdisk|standalone_)(\d+)w?_r(\d+)", tag)
         if not m:
             continue
         cc = f.parent / "crosscheck.json"
@@ -27,7 +27,7 @@ def main():
             except Exception:
                 ok = None
         t = d["timings"]
-        rows.append({"mode": "local" if m.group(1) == "local" else "standalone",
+        rows.append({"mode": {"standalone_": "standalone"}.get(m.group(1), m.group(1)),
                      "units": int(m.group(2)), "rep": int(m.group(3)), "cores": d["default_parallelism"],
                      "total_s": t["total_s"], "parse_s": t["parse_tasks_s"], "descriptor_s": t["descriptor_s"],
                      "metadata_s": t["metadata_s"], "prats_s": t["prats_s"], "session_s": t["session_s"],

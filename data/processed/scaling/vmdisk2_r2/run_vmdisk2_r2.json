@@ -1,0 +1,18 @@
+{
+  "tag": "vmdisk2_r2",
+  "chunks": 9,
+  "apps": 215,
+  "tasks": 1251335,
+  "log_bytes": 4092562038,
+  "timings": {
+    "session_s": 17.76,
+    "parse_tasks_s": 44.22,
+    "metadata_s": 15.02,
+    "descriptor_s": 60.58,
+    "prats_s": 6.36,
+    "total_s": 144.14
+  },
+  "master": "local[2]",
+  "default_parallelism": 2,
+  "spark_version": "3.5.9"
+}

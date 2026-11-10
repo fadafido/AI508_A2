@@ -1,0 +1,18 @@
+{
+  "tag": "vmdisk8_r1",
+  "chunks": 9,
+  "apps": 215,
+  "tasks": 1251335,
+  "log_bytes": 4092562038,
+  "timings": {
+    "session_s": 19.88,
+    "parse_tasks_s": 38.78,
+    "metadata_s": 10.36,
+    "descriptor_s": 55.94,
+    "prats_s": 6.5,
+    "total_s": 131.68
+  },
+  "master": "local[8]",
+  "default_parallelism": 8,
+  "spark_version": "3.5.9"
+}
