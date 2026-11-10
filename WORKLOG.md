@@ -232,3 +232,11 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
   the model loses to Prats on DS and DS' on both readings and wins only on DS'' with the 10-seed
   median, so it does not consistently beat Prats; and we can't verify that our repair matches the
   implementation behind the published figures.
+- 15:36 The cluster conclusion in docs/results.md softened from "the descriptor transfers across
+  platforms, but the run times don't" to "workload identity transfers well across platforms; input
+  size and absolute run times transfer much less well (the order of run times is partly kept,
+  Spearman 0.70 to 0.72)": the descriptor identifies the workload well but the size less well, and
+  the run-time order is partly preserved even though absolute times change. README.md and
+  docs/cluster.md don't carry the same absolute claim (cluster.md's conclusion is about descriptor
+  stability under a resource-only change), so they were left as they are. Repository frozen after
+  this.

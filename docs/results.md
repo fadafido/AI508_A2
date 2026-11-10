@@ -255,8 +255,10 @@ the paper's nominal configuration vector and, as a variant, the settings the VM 
 
 Campaign 2 behaves the same (330% / 318%, 248% / 192%, 50% / 50%; for the VM-only history the two
 variants coincide because the actual settings are the nominal ones with the memory halved, which the
-model's min-max scaling absorbs). The descriptor transfers across platforms, but the run times don't:
-the model only becomes useful on the new platform once it has runs from that platform in its history.
+model's min-max scaling absorbs). Workload identity transfers well across platforms; input size and
+absolute run times transfer much less well (the order of run times is partly kept, Spearman 0.70 to
+0.72): the model only becomes useful on the new platform once it has runs from that platform in its
+history.
 That is consistent with the paper's incremental story, but it is not the paper's incremental
 adaptation experiment: moving to a new platform is a harder shift than the paper's synthetic DS' and
 DS'' perturbations, and the model here was used as-is, without the paper's adaptation mechanism.
