@@ -210,3 +210,12 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
   causes this test can't separate: input skew (the largest log is 30 to 60% of its job's bytes) and
   the Mac's 5 performance + 6 efficiency cores (8 vCPUs can't sit on performance cores alone).
   Table, figure and explanation updated in docs/results.md.
+- 14:45 Wording fixes from the second external review, docs/results.md: the audit-class result is an
+  association, not a cause ("the larger errors coincide with the workloads whose inputs differ"); the
+  DS gap part now closes by saying the evidence narrows the candidates but does not isolate a single
+  cause; the FGCS 2026 anchor paragraph says the differences are "more likely" to come from the data
+  preparation, the descriptor extraction and the baseline repairs; the Prats paragraph is framed as
+  an artifact-availability limitation (the repair follows the apparent intended interface, but we
+  can't verify it matches the implementation behind the published figures); the scaling section says
+  plainly that this is single-machine scaling in Spark local mode, not cluster scaling. README got a
+  "Results and how to regenerate them" table (file, command, published reference, seeds).

@@ -79,6 +79,20 @@ Three ways, from cheapest to most thorough:
    `FORCE=--force bash scripts/run_all.sh` (hours; the raw event logs are joined from the authors'
    repository). The cluster re-runs are separate, see `docs/cluster.md`.
 
+## Results and how to regenerate them
+
+`python` below means `~/.venvs/ai508a2/bin/python`. These commands rebuild each table from the result
+files; recomputing the result files themselves is the full rerun above.
+
+| Result | File under `results/` | Regenerate with | Published reference | Seeds / reps |
+|---|---|---|---|---|
+| AME and headline | `comparison/ame.csv`, `headline.json` | `python src/analysis/compare_with_paper.py` | `paper_reference/fgcs2025_published.json` | baselines 0-2; Garralda 1 on DS, 10 on DS' and DS'' |
+| Matched seeds | `comparison/matched_seeds.csv` | same command | same file | 0-2, all three models |
+| DS gap | `comparison/ds_gap.json` | `python src/analysis/ds_gap.py` | `reproduced/data_audit/t_stats_vs_paper.csv` (audit vs FGCS Table 3) | all seeds, medians; the fold itself is deterministic |
+| Cluster re-runs | `reproduced/cluster_rerun*/summary.json` | `CLUSTER=cluster STEPS=reruns bash scripts/run_all.sh` (campaign 2: `CLUSTER=cluster2`) | the 2022 gallery (`data/processed/`) | deterministic; tiny runs x2 |
+| Campaign 2 vs 1 | `reproduced/cluster_rerun2/vs_campaign1.json` | `python src/analysis/compare_campaigns.py` | campaign 1 (`data/cluster/`) | deterministic |
+| Featuriser scaling | `reproduced/scaling/summary.csv` | `CORES="1 2 4 8" bash scripts/scaling.sh`, then `python src/analysis/scaling_summary.py` | reference descriptors (`data/processed/garralda__default.csv`), checked per run | 2 repetitions per core count |
+
 ## Credits
 
 Model and baseline code: github.com/mgarralda/garralda-performance-model (MIT licence), which also hosts

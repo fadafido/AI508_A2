@@ -46,8 +46,9 @@ How the metrics are computed (as the code computes them, which is what we reprod
     size/algorithm cells, as in the paper.
 - Scaling of the PySpark featuriser on VM 2 (4.09 GB, 9 jobs per run, median of 2 repetitions, every
   run reproduces the reference descriptors; `results/reproduced/scaling/summary.csv`, per repetition
-  and per phase in `runs.csv`). Two sets: the logs on the VM's own disk, and the same logs read
-  through the shared project mount (the I/O-bound case):
+  and per phase in `runs.csv`). The featuriser runs PySpark in local mode on one VM, so this is
+  single-machine scaling at 4.09 GB, not cluster scaling. Two sets: the logs on the VM's own disk,
+  and the same logs read through the shared project mount (the I/O-bound case):
 
   | Logs on | Cores | Total (s) | Session start (s) | Processing (s) | Speed-up (processing) | MB/s |
   |---|---|---|---|---|---|---|
@@ -81,8 +82,8 @@ exactly the published file to 3 decimals: MAE 163.045, RMSE 517.132, P95 903.808
 Kendall tau 0.694, precision@10 0.805 (`results/reproduced/fgcs2026_anchor/`). This is a positive
 control for the model code and my environment: it is the authors' later code on their own descriptors,
 in its own environment, so it shows the model implementation and my machine are not the problem. It is
-not evidence about the 2025 pipeline (data preparation and descriptor extraction), which is where the
-differences below must come from.
+not evidence about the 2025 pipeline, so the differences below are more likely to come from the data
+preparation, the descriptor extraction and the baseline repairs.
 
 ## 3. FGCS 2025
 
@@ -127,19 +128,20 @@ below their published values, and the three cases need different explanations:
   FGCS Table 3 within 1.5 s for only 15 of the 24 workloads, 8 differ a lot, and 1 (terasort) differs
   by up to 5% (I-07). Rescoring our DS errors by these audit classes
   (`results/comparison/ds_gap.json`): the Garralda model's LOGOCV MAE is 340 s on the "different runs"
-  workloads against 202 s on the consistent ones, so the data mismatch hits the proposed model hardest
-  exactly where the inputs differ. For Dou the pattern is reversed (its errors concentrate on the
-  consistent, long-running workloads), so data mismatch cannot explain its improvement; its grid is
-  simply version- and seed-sensitive (I-09, I-10).
+  workloads against 202 s on the consistent ones, so the larger errors coincide with the workloads
+  whose inputs differ. For Dou the pattern is reversed (its errors concentrate on the consistent,
+  long-running workloads), so data mismatch cannot explain its improvement; its grid is version- and
+  seed-sensitive (I-09, I-10).
 - The Garralda model is deterministic on DS, so random-forest arguments (I-10) cannot explain its gap;
   the candidates are the input data (I-07) and the rebuilt descriptor extraction (D-02 to D-08). Our
   own audit counts svm among the consistent workloads, so the svm fold below is not explained by I-07.
-- Prats: both public revisions of the authors' baseline file (283bc1a and f2d3f93) contain the same
-  broken LOGOCV branch (an indentation error, a call with keyword arguments the model builder does not
-  accept, and the whole held-out group predicted as one 3-D input, I-05/I-06), so the code that
-  produced the paper's Prats numbers is not public, and we cannot know what it did. Our patched branch
-  (D-16) gives Prats LOGOCV MAE 220 against the published 294, which is most of why Prats is stronger
-  in our runs.
+- Prats: an artifact-availability limitation. The inspected public revisions of the authors' baseline
+  file (283bc1a and f2d3f93) contain the same non-runnable LOGOCV branch (an indentation error, a call
+  with keyword arguments the model builder does not accept, and the whole held-out group predicted as
+  one 3-D input, I-05/I-06). We use a documented repair (D-16) that follows the apparent intended
+  interface, but we cannot verify that it matches the implementation behind the published Prats
+  figures. The repaired branch gives Prats LOGOCV MAE 220 against the published 294, which is most of
+  why Prats is stronger in our runs.
 
 **One svm fold dominates the Garralda LOOCV RMSE on DS** (`results/comparison/ds_gap.json`): the run
 with true time 4,819 s is predicted as 11,469 s. Its k = 8 neighbours are all svm runs with times from
@@ -147,6 +149,9 @@ with true time 4,819 s is predicted as 11,469 s. Its k = 8 neighbours are all sv
 transformed neighbour target (1.560), and the inverse transform turns that small extrapolation into
 11,469 s. This one fold carries 82.5% of the total LOOCV squared error; without it the RMSE drops from
 499 to 209.
+
+Together this narrows the DS gap to a few candidates — the input data (I-07), the rebuilt descriptor
+extraction (D-02 to D-08) and one transform-amplified fold — but it does not isolate a single cause.
 
 **Dou's grid search is degenerate on DS''** (I-09): with k = 5 neighbours and 5-fold CV every candidate
 scores NaN (0 of 15 finite; on DS all 15 are finite), so the refit silently takes the first grid point
