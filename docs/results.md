@@ -150,8 +150,8 @@ transformed neighbour target (1.560), and the inverse transform turns that small
 11,469 s. This one fold carries 82.5% of the total LOOCV squared error; without it the RMSE drops from
 499 to 209.
 
-Together this narrows the DS gap to a few candidates — the input data (I-07), the rebuilt descriptor
-extraction (D-02 to D-08) and one transform-amplified fold — but it does not isolate a single cause.
+Together this narrows the DS gap to a few candidates: the input data (I-07), the rebuilt descriptor
+extraction (D-02 to D-08) and one transform-amplified fold. It does not isolate a single cause.
 
 **Dou's grid search is degenerate on DS''** (I-09): with k = 5 neighbours and 5-fold CV every candidate
 scores NaN (0 of 15 finite; on DS all 15 are finite), so the refit silently takes the first grid point
