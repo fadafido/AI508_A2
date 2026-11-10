@@ -119,7 +119,11 @@ which is the paper's protocol too.
 
 Garralda on DS'': in 4 of the 10 seeds a few LOGOCV predictions explode (I-18), which is why the
 LOGOCV MAE has sd 322,772 across seeds while its median sits on the paper. The other 6 seeds are close
-to the paper on their own.
+to the paper on their own. On the matched seeds 0-2, the ones the baselines also ran
+(`results/comparison/matched_seeds.csv`), two of the three are diverging seeds: the Garralda AME per
+seed is 521.5, 595,495.6 and 88.5, so its matched-seed median (521.5) is behind Prats (133.7) and Dou
+(181.5). The model's DS'' advantage holds only for the 10-seed median, where 6 of 10 seeds converge;
+its ranking on DS'' depends on whether a seed diverges.
 
 **The DS gap, per model.** Our Garralda AME on DS is 23% above the paper, while both baselines land
 below their published values, and the three cases need different explanations:
@@ -180,9 +184,13 @@ above dominates it.
 **Headline claim.** The paper says its model lowers AME by 18% against Prats and 45% against Dou (31%
 overall); recomputed from its own Table 12 that is 17.9% and 43.8%. Ours, with the median-over-seeds
 rule: 33.6% against Dou (17.9% on DS, 38.1% on DS', 44.8% on DS'') and 0.5% against Prats (-14.0% on
-DS, -9.7% on DS', +25.1% on DS''). So the model clearly beats Dou, as in the paper, but it does not
-beat Prats in our runs: the patched Prats baseline is much stronger than its published numbers, and the
-code behind those numbers is not public (see above).
+DS, -9.7% on DS', +25.1% on DS''). On the matched seeds 0-2 only (headline.json,
+`ours_matched_seeds_0-2`), DS and DS' barely move (-14.0% and -9.7% against Prats, 17.9% and 38.1%
+against Dou) but DS'' flips to -290.0% and -187.3% because two of the three shared seeds diverge,
+dragging the averages to -104.6% against Prats and -43.8% against Dou. So the model clearly beats Dou
+on DS and DS'; on DS'' the comparison depends on whether a seed diverges (I-18). It does not beat
+Prats in our runs on any reading: the patched Prats baseline is much stronger than its published
+numbers, and the code behind those numbers is not public (see above).
 
 **Sensitivity (DS, AME)**
 

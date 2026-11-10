@@ -219,3 +219,10 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
   can't verify it matches the implementation behind the published figures); the scaling section says
   plainly that this is single-machine scaling in Spark local mode, not cluster scaling. README got a
   "Results and how to regenerate them" table (file, command, published reference, seeds).
+- 15:25 The matched-seed result on DS'' stated. compare_with_paper.py now also computes the
+  improvement percentages on the matched seeds 0-2 and writes them to headline.json next to the
+  10-seed ones. On those seeds two of three are diverging seeds (I-18): Garralda's DS'' AME per seed
+  is 521.5, 595,495.6 and 88.5, median 521.5, behind Prats (133.7) and Dou (181.5); DS'' flips to
+  -290.0% against Prats and -187.3% against Dou and drags the matched-seed averages to -104.6% and
+  -43.8%. docs/results.md states this after the DS'' table and in the headline paragraph: the
+  model's ranking on DS'' depends on whether a seed diverges.

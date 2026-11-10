@@ -41,6 +41,41 @@
       "Dou": -21865.0
     }
   },
+  "ours_matched_seeds_0-2": {
+    "AME_median_per_dataset": {
+      "Dou": {
+        "DS": 298.75,
+        "DSp": 283.77,
+        "DSpp": 181.49
+      },
+      "Garralda": {
+        "DS": 245.28,
+        "DSp": 175.77,
+        "DSpp": 521.46
+      },
+      "Prats": {
+        "DS": 215.2,
+        "DSp": 160.17,
+        "DSpp": 133.71
+      }
+    },
+    "improvement_pct_per_dataset": {
+      "Prats": {
+        "DS": -14.0,
+        "DSp": -9.7,
+        "DSpp": -290.0
+      },
+      "Dou": {
+        "DS": 17.9,
+        "DSp": 38.1,
+        "DSpp": -187.3
+      }
+    },
+    "improvement_pct_avg": {
+      "Prats": -104.6,
+      "Dou": -43.8
+    }
+  },
   "paper_recomputed_from_table12": {
     "improvement_pct_per_dataset": {
       "Prats": {

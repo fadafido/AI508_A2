@@ -116,6 +116,22 @@ def main():
         imp = {b: (100 * (piv[b] - piv["Garralda"]) / piv[b]).round(1).to_dict() for b in ("Prats", "Dou")}
         head[f"ours_{stat}"] = {"improvement_pct_per_dataset": imp,
                                 "improvement_pct_avg": {b: round(float(np.mean(list(v.values()))), 1) for b, v in imp.items()}}
+    # the same improvements on the matched seeds only (0-2, shared by all three models), so the
+    # Garralda DS'' value is not helped by the 7 extra seeds the baselines don't have
+    m02 = []
+    for ds in ("DS", "DSp", "DSpp"):
+        for model in ("Prats", "Dou", "Garralda"):
+            d = runs(ds, MODEL_DIR[model])
+            d = d[d.seed <= 2]
+            m02.append({"dataset": ds, "model": model, "AME": d.AME.median() if len(d) else np.nan})
+    piv02 = pd.DataFrame(m02).pivot(index="dataset", columns="model", values="AME")
+    if not piv02.isna().any().any():
+        imp02 = {b: (100 * (piv02[b] - piv02["Garralda"]) / piv02[b]).round(1).to_dict() for b in ("Prats", "Dou")}
+        head["ours_matched_seeds_0-2"] = {
+            "AME_median_per_dataset": {m: {ds: round(float(v), 2) for ds, v in piv02[m].items()} for m in piv02.columns},
+            "improvement_pct_per_dataset": imp02,
+            "improvement_pct_avg": {b: round(float(np.mean(list(v.values()))), 1) for b, v in imp02.items()}}
+
     ppiv = ame.pivot(index="dataset", columns="model", values="paper")
     pimp = {b: (100 * (ppiv[b] - ppiv["Garralda"]) / ppiv[b]).round(1).to_dict() for b in ("Prats", "Dou")}
     head["paper_recomputed_from_table12"] = {"improvement_pct_per_dataset": pimp,
