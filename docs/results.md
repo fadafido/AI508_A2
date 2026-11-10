@@ -188,9 +188,10 @@ DS, -9.7% on DS', +25.1% on DS''). On the matched seeds 0-2 only (headline.json,
 `ours_matched_seeds_0-2`), DS and DS' barely move (-14.0% and -9.7% against Prats, 17.9% and 38.1%
 against Dou) but DS'' flips to -290.0% and -187.3% because two of the three shared seeds diverge,
 dragging the averages to -104.6% against Prats and -43.8% against Dou. So the model clearly beats Dou
-on DS and DS'; on DS'' the comparison depends on whether a seed diverges (I-18). It does not beat
-Prats in our runs on any reading: the patched Prats baseline is much stronger than its published
-numbers, and the code behind those numbers is not public (see above).
+on DS and DS'; on DS'' the comparison depends on whether a seed diverges (I-18). Against Prats it
+loses on DS and DS' on both readings and wins only on DS'' with the 10-seed median, so it does not
+consistently beat Prats in our runs. Our patched Prats baseline is much stronger than its published
+numbers, and we can't verify that our repair matches the implementation behind them (see above).
 
 **Sensitivity (DS, AME)**
 

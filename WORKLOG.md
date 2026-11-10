@@ -226,3 +226,9 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
   -290.0% against Prats and -187.3% against Dou and drags the matched-seed averages to -104.6% and
   -43.8%. docs/results.md states this after the DS'' table and in the headline paragraph: the
   model's ranking on DS'' depends on whether a seed diverges.
+- 15:28 The Prats sentence in the headline paragraph corrected: it said "does not beat Prats on any
+  reading", which contradicts the +25.1% on DS'' with the 10-seed median two sentences earlier, and
+  claimed the code behind the published numbers "is not public", which is more than we can know. Now:
+  the model loses to Prats on DS and DS' on both readings and wins only on DS'' with the 10-seed
+  median, so it does not consistently beat Prats; and we can't verify that our repair matches the
+  implementation behind the published figures.
