@@ -148,8 +148,9 @@ below their published values, and the three cases need different explanations:
   why Prats is stronger in our runs.
 
 **One svm fold dominates the Garralda LOOCV RMSE on DS** (`results/comparison/ds_gap.json`): the run
-with true time 4,819 s is predicted as 11,469 s. Its k = 8 neighbours are all svm runs with times from
-25 to 6,216 s; the NNLS prediction in the Yeo-Johnson space is 1.643, just above the largest
+with true time 4,819 s is predicted as 11,469 s. Seven of its k = 8 neighbours are svm runs and one is
+a summarizer run, with times from 25 to 6,216 s; the NNLS prediction in the Yeo-Johnson space is 1.643,
+just above the largest
 transformed neighbour target (1.560), and the inverse transform turns that small extrapolation into
 11,469 s. This one fold carries 82.5% of the total LOOCV squared error; without it the RMSE drops from
 499 to 209.

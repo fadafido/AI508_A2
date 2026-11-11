@@ -176,7 +176,7 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
   the results, a two-minute check (tests + the driver-equivalence check), or the full rerun.
 - 20:40 The DS gap pulled apart (src/analysis/ds_gap.py -> results/comparison/ds_gap.json). The worst
   LOOCV fold recomputed with the authors' two stages: svm, true 4,819 s, predicted 11,469 s (stored
-  and recomputed agree), k = 8 all-svm neighbours with times 25 to 6,216 s; the prediction in the
+  and recomputed agree), k = 8 neighbours (7 svm, 1 summarizer) with times 25 to 6,216 s; the prediction in the
   Yeo-Johnson space (1.643) lies just above the largest transformed neighbour target (1.560) and the
   inverse transform blows the overshoot up. That one fold carries 82.5% of the LOOCV squared error
   (RMSE 499 without it 209). DS errors rescored by the audit classes of I-07 (15 consistent, 8
@@ -240,3 +240,11 @@ with 2 vCPUs that I used to develop the pipeline and for the long baseline runs.
   docs/cluster.md don't carry the same absolute claim (cluster.md's conclusion is about descriptor
   stability under a resource-only change), so they were left as they are. Repository frozen after
   this.
+
+## 11 November 2026
+
+- 10:13 Fixed a wrong detail in the svm-fold paragraph of docs/results.md: the worst LOOCV fold's
+  k = 8 neighbours are not all svm. results/comparison/ds_gap.json lists 7 svm runs and 1 summarizer
+  run (25.108 s), so the sentence now reads "Seven of its k = 8 neighbours are svm runs and one is a
+  summarizer run, with times from 25 to 6,216 s". Corrected the same claim in the 10 Nov 20:40 entry
+  above.
